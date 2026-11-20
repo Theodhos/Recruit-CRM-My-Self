@@ -3,8 +3,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 
-import { HeroDashboard, Stage } from '@/components/landing/mockups';
-
 export const metadata: Metadata = {
   title: 'Recruitment CRM — One system for your agency',
   description: 'One simple system for recruitment and staffing agencies. Less admin, more clarity.',
@@ -114,23 +112,33 @@ export default function LandingPage() {
         <Wrap>
           <div className="grid items-end gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
-              <Eyebrow>CRM and ATS for recruitment agencies</Eyebrow>
+              <Eyebrow>For recruitment agencies</Eyebrow>
               <h1 className="mt-5 font-serif text-[2.9rem] font-bold leading-[1.02] tracking-[-0.02em] sm:text-[4.2rem]">
-                From first CV to final payslip.
+                Run your agency with clarity.
                 <span className="block text-[#c2410c]">One system.</span>
               </h1>
             </div>
             <div className="lg:pb-2">
               <p className="max-w-md text-[19px] leading-snug text-[#4a4538]">
-                Find, place, pay and earn without spreadsheets, lost CVs or Friday-night payroll.
+                One calm place for your whole agency. Less admin, more clarity.
               </p>
               <div className="mt-7"><TryFree large /></div>
             </div>
           </div>
-          <div className="mt-14">
-            <Stage wide>
-              <HeroDashboard />
-            </Stage>
+          {/* purely decorative: shapes only, no screens, labels or product detail */}
+          <div className="mt-14 overflow-hidden bg-[#141414] p-6 sm:p-10" aria-hidden="true">
+            <div className="grid gap-4 sm:grid-cols-3">
+              <div className="h-40 bg-[#c2410c] sm:h-56" />
+              <div className="grid gap-4">
+                <div className="h-20 bg-[#f6f3ec]/90 sm:h-28" />
+                <div className="h-16 bg-[#f6f3ec]/20 sm:h-24" />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-[#f08a5d]/80" />
+                <div className="bg-[#f6f3ec]/20" />
+                <div className="col-span-2 h-16 bg-[#f6f3ec]/90 sm:h-24" />
+              </div>
+            </div>
           </div>
         </Wrap>
       </section>
