@@ -106,7 +106,8 @@ export class EmailService {
         authorization: `Bearer ${this.config.get<string>('RESEND_API_KEY')}`,
       },
       body: JSON.stringify({
-        from: this.config.get<string>('RESEND_FROM'),
+        // hosting dashboards sometimes keep the quotes of `RESEND_FROM="Name <a@b.c>"`, which Resend rejects as an invalid sender
+        from: (this.config.get<string>('RESEND_FROM') ?? '').trim().replace(/^["']+|["']+$/g, ''),
         to: input.to,
         subject: input.subject,
         text: input.text,
