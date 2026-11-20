@@ -1,3 +1,4 @@
+import { LOGIN_PATH } from '@/lib/login-path';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { getSession, logout } from '@/services/auth.service';
@@ -23,7 +24,7 @@ async function getTabSession() {
   }
   if (!signedIn) {
     await logout().catch(() => undefined);
-    window.location.assign('/login');
+    window.location.assign(LOGIN_PATH);
     throw new Error('Signed out');
   }
   return getSession();

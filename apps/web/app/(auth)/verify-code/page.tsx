@@ -1,5 +1,6 @@
 'use client';
 
+import { LOGIN_PATH } from '@/lib/login-path';
 import { Button } from '@crm/ui';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/auth/auth-card';
 import { MailCheck } from '@crm/ui/icons';
@@ -66,7 +67,7 @@ function VerifyCode() {
       const query = new URLSearchParams();
       if (redirectTo) query.set('redirectTo', redirectTo);
       if (message) query.set('notice', message);
-      router.replace(`/login${query.size ? `?${query.toString()}` : ''}`);
+      router.replace(`${LOGIN_PATH}${query.size ? `?${query.toString()}` : ''}`);
     },
     [redirectTo, router],
   );

@@ -1,5 +1,6 @@
 'use client';
 
+import { LOGIN_PATH } from '@/lib/login-path';
 import { initials } from '@crm/utils';
 import { LogOut } from '@crm/ui/icons';
 import { usePathname, useRouter } from 'next/navigation';
@@ -32,7 +33,7 @@ export function Topbar() {
 
   async function handleLogout() {
     await logout();
-    router.push('/login');
+    router.push(LOGIN_PATH);
     router.refresh();
   }
 

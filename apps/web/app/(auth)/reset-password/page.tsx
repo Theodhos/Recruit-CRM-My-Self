@@ -1,5 +1,6 @@
 'use client';
 
+import { LOGIN_PATH } from '@/lib/login-path';
 import { Button, Input, Label } from '@crm/ui';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/auth/auth-card';
 
@@ -38,7 +39,7 @@ function ResetPassword() {
       await resetPassword(token, password);
       // whoever was signed in on this browser signs in again, with the new password
       await logout().catch(() => undefined);
-      router.replace(`/login?notice=${encodeURIComponent('Your password was changed. Sign in with the new one.')}`);
+      router.replace(`${LOGIN_PATH}?notice=${encodeURIComponent('Your password was changed. Sign in with the new one.')}`);
     } catch (e) {
       setError(e instanceof ApiClientError ? e.message : 'Something went wrong. Please try again.');
       setSaving(false);
@@ -89,7 +90,7 @@ function ResetPassword() {
       </Card>
 
       <p className="mt-8 text-sm text-foreground/60">
-        <Link href="/login" className="font-medium text-primary hover:underline">
+        <Link href={LOGIN_PATH} className="font-medium text-primary hover:underline">
           Back to sign in
         </Link>
       </p>

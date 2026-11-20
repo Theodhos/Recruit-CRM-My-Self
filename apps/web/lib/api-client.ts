@@ -1,3 +1,4 @@
+import { LOGIN_PATH } from '@/lib/login-path';
 import type { ApiResponse } from '@crm/types';
 
 const CONFIGURED_API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api/v1';
@@ -104,8 +105,8 @@ async function withSessionRefresh(path: string, request: () => Promise<Response>
     });
   const refreshed = await refreshInFlight;
   if (!refreshed) {
-    if (typeof window !== 'undefined' && !window.location.pathname.startsWith('/login')) {
-      window.location.assign(`/login?redirectTo=${encodeURIComponent(window.location.pathname)}`);
+    if (typeof window !== 'undefined' && !window.location.pathname.startsWith(LOGIN_PATH)) {
+      window.location.assign(`${LOGIN_PATH}?redirectTo=${encodeURIComponent(window.location.pathname)}`);
     }
     return first;
   }

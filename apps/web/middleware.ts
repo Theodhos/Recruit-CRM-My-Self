@@ -1,11 +1,14 @@
 import { NextResponse, type NextRequest } from 'next/server';
 
+import { LOGIN_PATH } from '@/lib/login-path';
 import { updateSession } from '@/utils/supabase/middleware';
 
 const SESSION_COOKIE = 'crm_session';
 const REFRESH_COOKIE = 'crm_refresh';
+// With NEXT_PUBLIC_LOGIN_PATH set, the sign-in page is only reachable at that address; /login itself answers 404.
+const HIDDEN_LOGIN = LOGIN_PATH !== '/login';
 // `/verify-code` is step two of signing in: the password was accepted, the e-mailed code not yet — no session exists.
-const PUBLIC_PATHS = ['/login', '/register', '/forgot-password', '/reset-password', '/verify-code'];
+const PUBLIC_PATHS = [LOGIN_PATH, '/register', '/forgot-password', '/reset-password', '/verify-code'];
 
 /**
  * Route-level auth gate: unauthenticated requests to anything outside the
@@ -33,6 +36,27 @@ export async function middleware(request: NextRequest) {
   const hasSession = request.cookies.has(SESSION_COOKIE) || request.cookies.has(REFRESH_COOKIE);
   const isPublicPath = PUBLIC_PATHS.some((path) => request.nextUrl.pathname.startsWith(path));
 
+  if (HIDDEN_LOGIN) {
+    const { pathname } = request.nextUrl;
+    // the real route stays /login internally; nobody may open it by that name
+    if (pathname === '/login' || pathname.startsWith('/login/')) {
+      return NextResponse.rewrite(new URL('/_not-found-login', request.url));
+    }
+    // the secret address shows the sign-in page, keeping the secret address in the browser bar
+    if (pathname === LOGIN_PATH) {
+      if (hasSession) {
+        const response = NextResponse.redirect(new URL('/dashboard', request.url));
+        copyCookies(supabaseResponse, response);
+        return response;
+      }
+      const target = request.nextUrl.clone();
+      target.pathname = '/login';
+      const response = NextResponse.rewrite(target);
+      copyCookies(supabaseResponse, response);
+      return response;
+    }
+  }
+
   // The site root is the public landing page: visitors see it, signed-in users go straight to the dashboard.
   if (request.nextUrl.pathname === '/') {
     if (hasSession) {
@@ -44,7 +68,8 @@ export async function middleware(request: NextRequest) {
   }
 
   if (!hasSession && !isPublicPath) {
-    const loginUrl = new URL('/login', request.url);
+    // with a hidden sign-in address, signed-out visitors go to the public landing page so the address is not leaked
+    const loginUrl = new URL(HIDDEN_LOGIN ? '/' : '/login', request.url);
     // the root only forwards to /dashboard, which is where a sign-in without `redirectTo` already ends up
     if (request.nextUrl.pathname !== '/') {
       loginUrl.searchParams.set('redirectTo', request.nextUrl.pathname);
