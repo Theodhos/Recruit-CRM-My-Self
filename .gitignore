@@ -80,3 +80,9 @@ infrastructure/loadtest/load-*.json
 infrastructure/loadtest/explain-*.json
 infrastructure/loadtest/index-experiment.json
 infrastructure/loadtest/package-lock.json
+
+# Render/Vercel env files (sekrete)
+.env.api
+.env.web
+**/.env.api
+**/.env.web
