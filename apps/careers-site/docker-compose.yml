@@ -1,0 +1,12 @@
+# docker compose up -d --build   ->  http://localhost:3100/jobs
+services:
+  careers:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3100:3100"
+    environment:
+      PORT: "3100"
+      HOST: "0.0.0.0"
+      CRM_API_URL: ${CRM_API_URL:-https://crm.example.com}
+      CAREERS_ORG: ${CAREERS_ORG:-acme-recruiting}

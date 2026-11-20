@@ -1,0 +1,14 @@
+# /etc/systemd/system/careers.service  — runs the site without Docker (Node 20+)
+[Unit]
+Description=Public careers site
+After=network.target
+
+[Service]
+WorkingDirectory=/opt/careers
+Environment=PORT=3100 HOST=127.0.0.1 CRM_API_URL=https://crm.example.com CAREERS_ORG=acme-recruiting
+ExecStart=/usr/bin/node serve.mjs
+Restart=always
+User=nobody
+
+[Install]
+WantedBy=multi-user.target

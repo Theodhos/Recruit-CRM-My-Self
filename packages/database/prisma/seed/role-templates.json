@@ -1,0 +1,37 @@
+{
+  "_comment": "The five standard roles. A permission pattern ending in :% means every action of that module (create, read, update, delete). Applied to an organisation by the migration 20261111120000_role_templates; an administrator can still edit any role afterwards.",
+  "roles": [
+    {
+      "name": "Administrator",
+      "renames": "Admin",
+      "description": "Full access to everything, including users, roles, commission percentages and payroll approval.",
+      "permissions": ["*"]
+    },
+    {
+      "name": "Account Manager",
+      "description": "Clients, vacancies, applications and the candidates assigned to them.",
+      "permissions": ["company:%", "contact:%", "job:%", "application:%", "candidate:create", "candidate:read", "candidate:update", "placement:read", "task:%", "document:%", "activity:%", "calendar:%", "communication:send", "notification:%"]
+    },
+    {
+      "name": "Resourcer",
+      "description": "The candidate database, jobs and their own placements. Cannot see other people's commission.",
+      "permissions": ["candidate:create", "candidate:read", "candidate:update", "candidate:export", "job:create", "job:read", "job:update", "application:%", "placement:create", "placement:read", "placement:update", "company:read", "contact:read", "task:%", "document:%", "activity:%", "calendar:%", "communication:send", "communication:bulk", "notification:%"]
+    },
+    {
+      "name": "Payroll Administrator",
+      "description": "Timesheets, payroll, payslips and payment statuses. May approve payroll and see NINO and UTR.",
+      "permissions": ["payroll:view", "payroll:approve", "payroll:sensitive", "candidate:read", "company:read", "placement:read", "document:create", "document:read", "notification:%"]
+    },
+    {
+      "name": "Marketing",
+      "description": "Website vacancies and marketing-related information.",
+      "permissions": ["job:read", "job:update", "company:read", "candidate:read", "candidate:export", "template:manage", "communication:bulk", "notification:%"]
+    }
+  ],
+  "onlyFor": {
+    "commission:manage": ["Administrator"],
+    "payroll:approve": ["Administrator", "Payroll Administrator"],
+    "payroll:view": ["Administrator", "Payroll Administrator"],
+    "payroll:sensitive": ["Administrator", "Payroll Administrator"]
+  }
+}

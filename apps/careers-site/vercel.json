@@ -1,0 +1,20 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "",
+  "outputDirectory": "public",
+  "trailingSlash": false,
+  "functions": {
+    "api/index.mjs": {
+      "includeFiles": "templates/**",
+      "maxDuration": 30
+    }
+  },
+  "rewrites": [
+    { "source": "/", "destination": "/api/index?path=/" },
+    { "source": "/jobs", "destination": "/api/index?path=/jobs" },
+    { "source": "/job/:id", "destination": "/api/index?path=/job/:id" },
+    { "source": "/apply/:id", "destination": "/api/index?path=/apply/:id" },
+    { "source": "/health", "destination": "/api/index?path=/health" }
+  ]
+}

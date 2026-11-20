@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* shadcn/ui CSS variable theme. apps/web imports this once in app/globals.css. */
+@layer base {
+  :root {
+    /* surface = white cards and inputs; the page behind them is paper (see body below) */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 8%;
+    --primary: 17 89% 40%;
+    --primary-foreground: 0 0% 100%;
+    --accent: 43 29% 91%;
+    --accent-foreground: 0 0% 8%;
+    --destructive: 5 78% 40%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 44 24% 83%;
+    --input: 44 17% 76%;
+    --ring: 17 89% 40%;
+    --radius: 0.25rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+
+  /* Chart palette (dataviz skill's validated reference instance) — fixed
+     categorical slot order, never cycled/reassigned per chart. Kept
+     separate from the shadcn tokens above since charts need real hex
+     (CVD-validated), not HSL triples. */
+  :root {
+    --chart-series-1: #c2410c; /* terracotta */
+    --chart-series-2: #141414; /* ink */
+    --chart-series-3: #2f6b3b; /* green */
+    --chart-series-4: #b7791f; /* ochre */
+    --chart-series-5: #7a3b6e; /* plum */
+    --chart-series-6: #2d5a73; /* teal */
+    --chart-series-7: #8a846f; /* stone */
+    --chart-series-8: #b42318; /* brick */
+    --chart-surface: #ffffff;
+    --chart-text-primary: #141414;
+    --chart-text-secondary: #4a4538;
+    --chart-muted: #8a846f;
+    --chart-grid: #e7e1d3;
+    --chart-baseline: #cfc8b8;
+  }
+
+  .dark {
+    --chart-series-1: #3987e5;
+    --chart-series-2: #d95926;
+    --chart-series-3: #199e70;
+    --chart-series-4: #c98500;
+    --chart-series-5: #d55181;
+    --chart-series-6: #008300;
+    --chart-series-7: #9085e9;
+    --chart-series-8: #e66767;
+    --chart-surface: #1a1a19;
+    --chart-text-primary: #ffffff;
+    --chart-text-secondary: #c3c2b7;
+    --chart-muted: #898781;
+    --chart-grid: #2c2c2a;
+    --chart-baseline: #383835;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    background-color: #f6f3ec;
+    color: #141414;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: ui-serif, Georgia, 'Times New Roman', serif;
+    letter-spacing: -0.01em;
+  }
+}

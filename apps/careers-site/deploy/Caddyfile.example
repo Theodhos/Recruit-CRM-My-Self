@@ -1,0 +1,5 @@
+# The new domain (replace jobs.example.com). Caddy gets the HTTPS certificate by itself once the DNS points here.
+jobs.example.com {
+	encode gzip
+	reverse_proxy 127.0.0.1:3100
+}

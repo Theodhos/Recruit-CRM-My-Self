@@ -1,0 +1,16 @@
+{
+  "name": "crm-careers-site",
+  "version": "1.0.0",
+  "description": "The public jobs page of the recruitment CRM: lists the jobs published in the CRM and sends applications back to it.",
+  "private": true,
+  "type": "module",
+  "main": "serve.mjs",
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env --watch serve.mjs",
+    "start": "node serve.mjs",
+    "start:env": "node --env-file=.env serve.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
