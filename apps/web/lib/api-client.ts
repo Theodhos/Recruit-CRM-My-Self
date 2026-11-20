@@ -1,6 +1,13 @@
 import type { ApiResponse } from '@crm/types';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api/v1';
+const CONFIGURED_API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api/v1';
+
+// On *.vercel.app the API is on another domain, so its cookies would be third-party and never reach the site's
+// middleware. There the browser calls /api/v1 on the site itself, which next.config.mjs forwards to the API.
+const API_URL =
+  typeof window !== 'undefined' && window.location.hostname.endsWith('.vercel.app') && /^https?:\/\//.test(CONFIGURED_API_URL)
+    ? '/api/v1'
+    : CONFIGURED_API_URL;
 
 export class ApiClientError extends Error {
   constructor(

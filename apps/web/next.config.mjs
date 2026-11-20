@@ -19,7 +19,8 @@ const nextConfig = {
   // (API_PROXY_TARGET, e.g. https://my-api.onrender.com). That keeps the httpOnly session cookies first-party, so the
   // login cookie is accepted and visible to the middleware. Unset (local dev) = no rewrite, the app calls the API directly.
   async rewrites() {
-    const target = (process.env.API_PROXY_TARGET ?? '').replace(/\/$/, '');
+    // On Vercel (VERCEL=1 during the build) the API lives on Render; API_PROXY_TARGET overrides this default.
+    const target = (process.env.API_PROXY_TARGET ?? (process.env.VERCEL ? 'https://recruit-crm-my-self.onrender.com' : '')).replace(/\/$/, '');
     return target ? [{ source: '/api/v1/:path*', destination: `${target}/api/v1/:path*` }] : [];
   },
   experimental: {
