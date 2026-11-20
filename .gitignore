@@ -86,3 +86,7 @@ infrastructure/loadtest/package-lock.json
 .env.web
 **/.env.api
 **/.env.web
+.env.realtime
+.env.worker
+**/.env.realtime
+**/.env.worker

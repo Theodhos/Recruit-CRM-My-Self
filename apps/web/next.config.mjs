@@ -15,6 +15,13 @@ const nextConfig = {
     config.resolve.alias.canvas = false;
     return config;
   },
+  // Production on Vercel: the browser talks to /api/v1 on the SAME origin as the site and Next forwards it to the API
+  // (API_PROXY_TARGET, e.g. https://my-api.onrender.com). That keeps the httpOnly session cookies first-party, so the
+  // login cookie is accepted and visible to the middleware. Unset (local dev) = no rewrite, the app calls the API directly.
+  async rewrites() {
+    const target = (process.env.API_PROXY_TARGET ?? '').replace(/\/$/, '');
+    return target ? [{ source: '/api/v1/:path*', destination: `${target}/api/v1/:path*` }] : [];
+  },
   experimental: {
     // Per-icon/per-component imports instead of pulling the whole package
     // into every route that uses one icon or one chart — the icon set and
