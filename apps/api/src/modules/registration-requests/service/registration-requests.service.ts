@@ -51,6 +51,9 @@ export class RegistrationRequestsService {
       `</table><p style="color:#6b7280">Reply to this e-mail to answer ${escape(dto.firstName)} directly.</p>`;
     const text = `New access request\n\n${rows.map(([k, v]) => `${k}: ${v}`).join('\n')}\n\nReply to this e-mail to answer ${dto.firstName} directly.`;
 
+    // WhatsApp heads-up runs alongside the e-mail and never delays or fails the request
+    void this.notifyWhatsApp(dto, to);
+
     try {
       const result = await this.email.send({
         to,
@@ -63,6 +66,43 @@ export class RegistrationRequestsService {
     } catch (error) {
       this.logger.error(`Access request could not be e-mailed to ${to}: ${error instanceof Error ? error.message : String(error)}`);
       return { received: true, notified: false };
+    }
+  }
+
+  /**
+   * Short WhatsApp message with a link to the inbox that holds the full details. Off unless configured:
+   *  - WHATSAPP_PHONE + CALLMEBOT_API_KEY: sent through CallMeBot (free; the key comes from messaging their bot), or
+   *  - WHATSAPP_WEBHOOK_URL: POSTed as {"text": "..."} to any automation (Make, Zapier, n8n, a Telegram/WhatsApp bridge).
+   */
+  private async notifyWhatsApp(dto: RegistrationRequestDto, to: string): Promise<void> {
+    const phone = this.config.get<string>('WHATSAPP_PHONE');
+    const apiKey = this.config.get<string>('CALLMEBOT_API_KEY');
+    const webhook = this.config.get<string>('WHATSAPP_WEBHOOK_URL');
+    if (!(phone && apiKey) && !webhook) return;
+
+    const inbox = `https://mail.google.com/mail/u/${encodeURIComponent(to)}/#inbox`;
+    const message =
+      `Kerkese e re per llogari CRM\n` +
+      `Agjencia: ${dto.organisationName}\n` +
+      `Emri: ${dto.firstName} ${dto.lastName}\n` +
+      `Email: ${dto.email}${dto.phone ? `\nTel: ${dto.phone}` : ''}\n` +
+      `Detajet ne email: ${inbox}`;
+
+    try {
+      if (webhook) {
+        await fetch(webhook, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ text: message }),
+          signal: AbortSignal.timeout(10_000),
+        });
+      } else {
+        const url = `https://api.callmebot.com/whatsapp.php?phone=${encodeURIComponent(phone ?? '')}&text=${encodeURIComponent(message)}&apikey=${encodeURIComponent(apiKey ?? '')}`;
+        const response = await fetch(url, { signal: AbortSignal.timeout(10_000) });
+        if (!response.ok) this.logger.warn(`WhatsApp notification refused (${response.status}).`);
+      }
+    } catch (error) {
+      this.logger.warn(`WhatsApp notification failed: ${error instanceof Error ? error.message : String(error)}`);
     }
   }
 }
