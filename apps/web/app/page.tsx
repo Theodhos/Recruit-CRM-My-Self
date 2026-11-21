@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 
 export const metadata: Metadata = {
   title: 'Recruitment CRM — One system for your agency',
@@ -14,7 +13,14 @@ const REGISTER = '/register';
  * Deliberately high level: the page explains the idea, the purpose and where it helps, and nothing about how the
  * product is built, what screens or parts it has, or how anything works inside. Keep it that way when editing.
  * No invented figures, customers or quotes either: only claims the business can stand behind.
+ * The pictures are drawn shapes and patterns: no icons, no stock images, no screens.
  */
+
+const INK = '#141414';
+const PAPER = '#f6f3ec';
+const SAND = '#ebe5d6';
+const RUST = '#b4380a';
+const SOFT = '#e8956b';
 
 const WHY = [
   { title: 'See the whole picture', text: 'Know where things stand at a glance, without asking around or digging for answers.' },
@@ -28,20 +34,51 @@ const PRINCIPLES = [
   ['Stronger teams', 'Everyone working the same way.'],
 ];
 
-const WHERE = [
-  { title: 'Recruitment agencies', text: 'From a boutique of three to a busy floor of thirty.' },
-  { title: 'Staffing and temporary work', text: 'Fast-moving teams that have to keep up every single day.' },
-  { title: 'Specialist and executive search', text: 'Relationship-led work where nothing can slip through.' },
-  { title: 'Growing teams', text: 'A system that scales as quickly as you do.' },
-  { title: 'Multi-office agencies', text: 'Everyone on the same page, wherever they sit.' },
-  { title: 'In-house hiring teams', text: 'Companies that recruit for themselves and want it to feel easy.' },
+/** Each tile of "where it helps" carries its own quiet pattern, drawn with CSS gradients. */
+const WHERE: { title: string; text: string; tone: string; pattern: CSSProperties }[] = [
+  {
+    title: 'Recruitment agencies',
+    text: 'From a boutique of three to a busy floor of thirty.',
+    tone: 'bg-[#141414] text-[#f6f3ec]',
+    pattern: { backgroundImage: 'radial-gradient(rgba(246,243,236,0.22) 1.3px, transparent 1.6px)', backgroundSize: '16px 16px' },
+  },
+  {
+    title: 'Staffing and temporary work',
+    text: 'Fast-moving teams that have to keep up every single day.',
+    tone: 'bg-[#b4380a] text-white',
+    pattern: { backgroundImage: 'repeating-linear-gradient(135deg, rgba(255,255,255,0.2) 0 1px, transparent 1px 13px)' },
+  },
+  {
+    title: 'Specialist and executive search',
+    text: 'Relationship-led work where nothing can slip through.',
+    tone: 'bg-[#fbf9f4] text-[#141414] ring-1 ring-inset ring-[#d9d2c1]',
+    pattern: { backgroundImage: 'repeating-radial-gradient(circle at 100% 100%, rgba(20,20,20,0.13) 0 1px, transparent 1px 22px)' },
+  },
+  {
+    title: 'Growing teams',
+    text: 'A system that scales as quickly as you do.',
+    tone: 'bg-[#ebe5d6] text-[#141414]',
+    pattern: { backgroundImage: 'linear-gradient(rgba(20,20,20,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(20,20,20,0.12) 1px, transparent 1px)', backgroundSize: '26px 26px' },
+  },
+  {
+    title: 'Multi-office agencies',
+    text: 'Everyone on the same page, wherever they sit.',
+    tone: 'bg-[#141414] text-[#f6f3ec]',
+    pattern: { backgroundImage: 'repeating-linear-gradient(0deg, rgba(246,243,236,0.16) 0 1px, transparent 1px 11px)' },
+  },
+  {
+    title: 'In-house hiring teams',
+    text: 'Companies that recruit for themselves and want it to feel easy.',
+    tone: 'bg-[#fbf9f4] text-[#141414] ring-1 ring-inset ring-[#d9d2c1]',
+    pattern: { backgroundImage: 'radial-gradient(rgba(180,56,10,0.35) 1.3px, transparent 1.6px)', backgroundSize: '18px 18px' },
+  },
 ];
 
 const ROLES = [
-  { role: 'Recruiters', gain: 'More time for people, less for admin.', src: '/landing/recruiter.jpg', alt: 'A recruitment consultant' },
-  { role: 'Managers', gain: 'A clear view of how the team is doing.', src: '/landing/manager.jpg', alt: 'An agency manager' },
-  { role: 'Finance', gain: 'Fewer manual steps. Fewer mistakes.', src: '/landing/finance.jpg', alt: 'A finance officer' },
-  { role: 'Owners', gain: 'Peace of mind, in control of the whole agency.', src: '/landing/owner.jpg', alt: 'An agency owner' },
+  { letter: 'R', role: 'Recruiters', gain: 'More time for people, less for admin.' },
+  { letter: 'M', role: 'Managers', gain: 'A clear view of how the team is doing.' },
+  { letter: 'F', role: 'Finance', gain: 'Fewer manual steps. Fewer mistakes.' },
+  { letter: 'O', role: 'Owners', gain: 'Peace of mind, in control of the whole agency.' },
 ];
 
 const COMMITMENTS = [
@@ -87,27 +124,137 @@ function H2({ children, light = false, className = '' }: { children: ReactNode; 
 type Tone = 'paper' | 'dark';
 
 function TryFree({ tone = 'paper', large = false, children = 'Try free' }: { tone?: Tone; large?: boolean; children?: ReactNode }) {
-  const styles: Record<Tone, string> = {
-    paper: 'focus-visible:ring-[#b4380a] focus-visible:ring-offset-[#f6f3ec]',
-    dark: 'focus-visible:ring-white focus-visible:ring-offset-[#141414]',
-  };
+  const ring = tone === 'dark' ? 'focus-visible:ring-white focus-visible:ring-offset-[#141414]' : 'focus-visible:ring-[#b4380a] focus-visible:ring-offset-[#f6f3ec]';
   return (
     <Link
       href={REGISTER}
-      className={`group inline-flex items-center justify-center gap-3 bg-[#b4380a] font-semibold text-white transition-colors hover:bg-[#8f2c08] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${large ? 'h-14 px-9 text-[17px]' : 'h-12 px-7 text-[15px]'} ${styles[tone]}`}
+      className={`inline-flex items-center justify-center bg-[#b4380a] font-semibold text-white transition-colors hover:bg-[#8f2c08] focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${large ? 'h-14 px-10 text-[17px]' : 'h-12 px-8 text-[15px]'} ${ring}`}
     >
       {children}
-      <svg viewBox="0 0 20 20" className="h-4 w-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M4 10h12M11 5l5 5-5 5" />
-      </svg>
     </Link>
   );
 }
 
-function Tick({ light = false }: { light?: boolean }) {
+/** The hero picture: nine square modules of plain geometry, in the page's own colours. Shapes only. */
+function HeroArt() {
   return (
-    <svg viewBox="0 0 20 20" className={`h-4 w-4 shrink-0 ${light ? 'text-[#e8956b]' : 'text-[#b4380a]'}`} fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="m4.5 10.5 3.5 3.5 7.5-8" />
+    <svg viewBox="0 0 480 480" className="mx-auto h-auto w-full max-w-[520px]" role="img" aria-label="">
+      <rect width="480" height="480" fill="#fbf9f4" />
+      {/* row 1 */}
+      <g>
+        <path d="M0,160 L160,160 A160,160 0 0 0 0,0 Z" fill={RUST} />
+      </g>
+      <g transform="translate(160 0)">
+        <rect width="160" height="160" fill={INK} />
+        <circle cx="80" cy="80" r="46" fill={PAPER} />
+        <circle cx="80" cy="80" r="14" fill={RUST} />
+      </g>
+      <g transform="translate(320 0)">
+        <rect width="160" height="160" fill={SAND} />
+        <rect x="26" y="28" width="26" height="104" fill={INK} />
+        <rect x="67" y="58" width="26" height="74" fill={INK} />
+        <rect x="108" y="88" width="26" height="44" fill={RUST} />
+      </g>
+      {/* row 2 */}
+      <svg x="0" y="160" width="160" height="160" viewBox="0 0 160 160">
+        <rect width="160" height="160" fill="#fbf9f4" />
+        {[36, 72, 108, 144, 180].map((r) => (
+          <circle key={r} cx="0" cy="160" r={r} fill="none" stroke={INK} strokeWidth="1.6" />
+        ))}
+      </svg>
+      <g transform="translate(160 160)">
+        <rect width="160" height="160" fill={RUST} />
+        <rect x="44" y="44" width="72" height="72" fill="none" stroke={PAPER} strokeWidth="2" />
+        <rect x="64" y="64" width="32" height="32" fill={PAPER} />
+      </g>
+      <g transform="translate(320 160)">
+        <rect width="160" height="160" fill="#fbf9f4" />
+        <path d="M160,0 L0,0 A160,160 0 0 0 160,160 Z" fill={INK} />
+      </g>
+      {/* row 3 */}
+      <g transform="translate(0 320)">
+        <rect width="160" height="160" fill={SAND} />
+        <rect x="28" y="28" width="104" height="22" fill={INK} />
+        <rect x="28" y="69" width="72" height="22" fill={INK} />
+        <rect x="28" y="110" width="40" height="22" fill={RUST} />
+      </g>
+      <g transform="translate(160 320)">
+        <rect width="160" height="160" fill="#fbf9f4" />
+        <circle cx="80" cy="80" r="54" fill="none" stroke={INK} strokeWidth="2" />
+        <circle cx="80" cy="80" r="30" fill="none" stroke={INK} strokeWidth="1.2" />
+        <circle cx="106" cy="54" r="9" fill={RUST} />
+      </g>
+      <g transform="translate(320 320)">
+        <rect width="160" height="160" fill={SOFT} />
+        <path d="M20,112 A60,60 0 0 1 140,112 Z" fill={INK} />
+        <rect x="20" y="112" width="120" height="3" fill={INK} />
+      </g>
+      {/* hairlines between the modules */}
+      <g stroke={INK} strokeOpacity="0.18" strokeWidth="1">
+        <line x1="160" y1="0" x2="160" y2="480" />
+        <line x1="320" y1="0" x2="320" y2="480" />
+        <line x1="0" y1="160" x2="480" y2="160" />
+        <line x1="0" y1="320" x2="480" y2="320" />
+      </g>
+    </svg>
+  );
+}
+
+/** One small drawing for each reason on the page: rings, falling bars, a grid with a few squares picked out. */
+function WhyArt({ n }: { n: 0 | 1 | 2 }) {
+  if (n === 0) {
+    return (
+      <svg viewBox="0 0 220 110" className="h-24 w-auto" aria-hidden="true">
+        {[14, 28, 42, 56].map((r) => (
+          <circle key={r} cx="110" cy="55" r={r} fill="none" stroke={INK} strokeWidth="1.4" />
+        ))}
+        <circle cx="110" cy="55" r="7" fill={RUST} />
+        <line x1="0" y1="55" x2="220" y2="55" stroke={INK} strokeWidth="1" strokeOpacity="0.35" />
+      </svg>
+    );
+  }
+  if (n === 1) {
+    return (
+      <svg viewBox="0 0 220 110" className="h-24 w-auto" aria-hidden="true">
+        {[96, 80, 64, 48, 32].map((w, i) => (
+          <rect key={w} x="0" y={i * 22} width={w * 2.2} height="14" fill={i === 4 ? RUST : INK} />
+        ))}
+      </svg>
+    );
+  }
+  const lit = new Set([2, 9, 10, 17]);
+  return (
+    <svg viewBox="0 0 220 110" className="h-24 w-auto" aria-hidden="true">
+      {Array.from({ length: 21 }).map((_, i) => {
+        const x = (i % 7) * 32;
+        const y = Math.floor(i / 7) * 36;
+        return <rect key={i} x={x} y={y} width="26" height="26" fill={lit.has(i) ? RUST : 'none'} stroke={INK} strokeWidth="1.4" />;
+      })}
+    </svg>
+  );
+}
+
+/** Many lines in, one line out: the purpose of the product, drawn. */
+function ConvergeArt() {
+  const ys = Array.from({ length: 13 }, (_, i) => 12 + i * 18);
+  return (
+    <svg viewBox="0 0 640 240" className="h-auto w-full" aria-hidden="true">
+      {ys.map((y, i) => (
+        <path key={y} d={`M0,${y} C260,${y} 340,120 520,120`} fill="none" stroke={PAPER} strokeOpacity={0.18 + (i % 4) * 0.08} strokeWidth="1.3" />
+      ))}
+      <line x1="520" y1="120" x2="640" y2="120" stroke={RUST} strokeWidth="6" />
+      <circle cx="520" cy="120" r="9" fill={SOFT} />
+    </svg>
+  );
+}
+
+/** Large arcs for the closing band, cropped by the edge of the page. */
+function ArcsArt() {
+  return (
+    <svg viewBox="0 0 400 400" className="h-full w-full" aria-hidden="true">
+      {[60, 110, 160, 210, 260, 310].map((r, i) => (
+        <circle key={r} cx="400" cy="400" r={r} fill="none" stroke={i === 2 ? RUST : PAPER} strokeOpacity={i === 2 ? 1 : 0.16} strokeWidth={i === 2 ? 5 : 1.2} />
+      ))}
     </svg>
   );
 }
@@ -134,11 +281,11 @@ export default function LandingPage() {
       {/* Hero */}
       <section className="pb-20 pt-14 lg:pb-28 lg:pt-20">
         <Wrap>
-          <div className="grid items-center gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
+          <div className="grid items-center gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
             <div>
               <Eyebrow>For recruitment agencies</Eyebrow>
-              <h1 className="mt-6 font-serif text-[3rem] font-bold leading-[1.0] tracking-[-0.025em] sm:text-[4.6rem]">
-                Run your agency with clarity.
+              <h1 className="mt-6 font-serif text-[3rem] font-bold leading-[1.0] tracking-[-0.025em] sm:text-[4.7rem]">
+                Run your agency with <span className="text-[#b4380a]">clarity.</span>
               </h1>
               <p className="mt-7 max-w-xl text-[20px] leading-[1.45] text-[#4a4538]">
                 One calm place for your whole agency. Less admin, clearer decisions, and more time for the people you work with.
@@ -152,22 +299,16 @@ export default function LandingPage() {
               <ul className="mt-12 grid max-w-xl gap-3 border-t border-[#d9d2c1] pt-6 text-[15px] font-medium text-[#4a4538] sm:grid-cols-3">
                 {['Nothing to install', 'Made for teams', 'Private and protected'].map((t) => (
                   <li key={t} className="flex items-center gap-2.5">
-                    <Tick />
+                    <span className="h-2 w-2 shrink-0 bg-[#b4380a]" />
                     {t}
                   </li>
                 ))}
               </ul>
             </div>
-
-            <figure className="relative mx-auto w-full max-w-md lg:max-w-none">
+            <div className="relative">
               <div className="absolute -bottom-4 -right-4 hidden h-full w-full border border-[#141414] sm:block" aria-hidden="true" />
-              <div className="relative aspect-[4/5] overflow-hidden bg-[#ebe5d6]">
-                <Image src="/landing/manager.jpg" alt="An agency manager" fill priority sizes="(min-width: 1024px) 460px, 90vw" className="object-cover object-top" />
-                <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-6 pb-6 pt-16 text-white">
-                  <span className="block font-serif text-[22px] font-bold leading-tight">One clear view of the whole agency.</span>
-                </figcaption>
-              </div>
-            </figure>
+              <div className="relative"><HeroArt /></div>
+            </div>
           </div>
         </Wrap>
       </section>
@@ -186,9 +327,10 @@ export default function LandingPage() {
           </div>
           <div className="mt-16 grid border-t border-[#141414] md:grid-cols-3">
             {WHY.map((w, i) => (
-              <div key={w.title} className="border-b border-[#d9d2c1] py-10 md:border-b-0 md:border-l md:px-8 md:first:border-l-0 md:first:pl-0">
-                <span className="font-serif text-[15px] font-bold tracking-[0.1em] text-[#b4380a]">{String(i + 1).padStart(2, '0')}</span>
-                <h3 className="mt-4 font-serif text-[27px] font-bold leading-tight">{w.title}</h3>
+              <div key={w.title} className="flex flex-col border-b border-[#d9d2c1] py-10 md:border-b-0 md:border-l md:px-8 md:first:border-l-0 md:first:pl-0">
+                <WhyArt n={i as 0 | 1 | 2} />
+                <span className="mt-10 font-serif text-[15px] font-bold tracking-[0.1em] text-[#b4380a]">{String(i + 1).padStart(2, '0')}</span>
+                <h3 className="mt-3 font-serif text-[27px] font-bold leading-tight">{w.title}</h3>
                 <p className="mt-3 text-[17px] leading-snug text-[#4a4538]">{w.text}</p>
               </div>
             ))}
@@ -197,13 +339,13 @@ export default function LandingPage() {
       </section>
 
       {/* Purpose */}
-      <section id="purpose" className="scroll-mt-16 bg-[#141414] py-24 text-[#f6f3ec]">
+      <section id="purpose" className="scroll-mt-16 overflow-hidden bg-[#141414] py-24 text-[#f6f3ec]">
         <Wrap>
-          <div className="grid items-center gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-20">
+          <Eyebrow light>Our purpose</Eyebrow>
+          <H2 light className="max-w-4xl text-[2.4rem] sm:text-[4rem]">Built to give agencies their time back.</H2>
+          <div className="mt-12 grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
             <div>
-              <Eyebrow light>Our purpose</Eyebrow>
-              <H2 light>Built to give agencies their time back.</H2>
-              <p className="mt-6 max-w-xl text-[19px] leading-snug text-[#cfc8b8]">
+              <p className="max-w-xl text-[19px] leading-snug text-[#cfc8b8]">
                 Recruitment is about people. Yet too much of the day disappears into keeping things in order. Recruitment CRM exists so the busywork never gets in the way of the work that matters.
               </p>
               <dl className="mt-10 border-t border-white/20">
@@ -216,12 +358,13 @@ export default function LandingPage() {
               </dl>
               <div className="mt-10"><TryFree tone="dark">Get started</TryFree></div>
             </div>
-            <figure className="relative mx-auto w-full max-w-md lg:max-w-none">
-              <div className="absolute -left-4 -top-4 hidden h-full w-full border border-[#e8956b]/60 sm:block" aria-hidden="true" />
-              <div className="relative aspect-[4/5] overflow-hidden bg-[#2a2a2a]">
-                <Image src="/landing/recruiter.jpg" alt="A recruitment consultant" fill sizes="(min-width: 1024px) 420px, 90vw" className="object-cover object-top" />
-              </div>
-            </figure>
+            <div>
+              <ConvergeArt />
+              <p className="mt-4 flex justify-between text-[12px] font-bold uppercase tracking-[0.2em] text-[#8a846f]">
+                <span>Many places</span>
+                <span className="text-[#e8956b]">One place</span>
+              </p>
+            </div>
           </div>
         </Wrap>
       </section>
@@ -238,15 +381,18 @@ export default function LandingPage() {
               From small specialist firms to busy multi-office agencies.
             </p>
           </div>
-          <ol className="mt-14 border-t border-[#141414]">
+          <div className="mt-14 grid gap-px bg-[#141414] sm:grid-cols-2 lg:grid-cols-3">
             {WHERE.map((w, i) => (
-              <li key={w.title} className="group grid items-baseline gap-2 border-b border-[#d9d2c1] px-2 py-7 transition-colors hover:bg-[#ebe5d6]/60 sm:grid-cols-[72px_1.1fr_1fr] sm:gap-8 sm:px-4">
-                <span className="font-serif text-[15px] font-bold tracking-[0.1em] text-[#b4380a]">{String(i + 1).padStart(2, '0')}</span>
-                <h3 className="font-serif text-[26px] font-bold leading-tight sm:text-[30px]">{w.title}</h3>
-                <p className="text-[17px] leading-snug text-[#4a4538]">{w.text}</p>
-              </li>
+              <article key={w.title} className={`group relative flex min-h-[290px] flex-col justify-between overflow-hidden p-8 ${w.tone}`}>
+                <div className="absolute inset-0 opacity-90 transition-transform duration-700 group-hover:scale-110" style={w.pattern} aria-hidden="true" />
+                <span className="relative font-serif text-[64px] font-bold leading-none opacity-90">{String(i + 1).padStart(2, '0')}</span>
+                <div className="relative">
+                  <h3 className="font-serif text-[27px] font-bold leading-tight">{w.title}</h3>
+                  <p className="mt-3 max-w-xs text-[16px] leading-snug opacity-85">{w.text}</p>
+                </div>
+              </article>
             ))}
-          </ol>
+          </div>
         </Wrap>
       </section>
 
@@ -257,14 +403,12 @@ export default function LandingPage() {
             <Eyebrow>Who it’s for</Eyebrow>
             <H2>Everyone gets what they need.</H2>
           </div>
-          <div className="mt-14 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-14 grid border-t border-[#141414] sm:grid-cols-2 lg:grid-cols-4">
             {ROLES.map((r) => (
-              <div key={r.role}>
-                <div className="relative aspect-[4/5] overflow-hidden bg-[#f6f3ec]">
-                  <Image src={r.src} alt={r.alt} fill sizes="(min-width: 1024px) 264px, (min-width: 640px) 50vw, 100vw" className="object-cover object-top" />
-                </div>
-                <h3 className="mt-5 border-t border-[#141414] pt-4 font-serif text-[25px] font-bold">{r.role}</h3>
-                <p className="mt-1 text-[16px] leading-snug text-[#4a4538]">{r.gain}</p>
+              <div key={r.role} className="border-b border-[#cfc8b8] py-10 sm:border-r sm:px-7 sm:first:pl-0 lg:border-b-0 lg:last:border-r-0">
+                <span className="block font-serif text-[120px] font-bold leading-[0.8] text-[#b4380a]/90">{r.letter}</span>
+                <h3 className="mt-6 font-serif text-[26px] font-bold">{r.role}</h3>
+                <p className="mt-2 text-[16px] leading-snug text-[#4a4538]">{r.gain}</p>
               </div>
             ))}
           </div>
@@ -279,10 +423,17 @@ export default function LandingPage() {
             <H2>Serious about your information.</H2>
           </div>
           <div className="mt-14 grid gap-px bg-[#d9d2c1] md:grid-cols-3">
-            {COMMITMENTS.map((c) => (
+            {COMMITMENTS.map((c, i) => (
               <div key={c.title} className="bg-[#f6f3ec] p-8 md:p-10">
-                <Tick />
-                <h3 className="mt-5 font-serif text-[25px] font-bold leading-tight">{c.title}</h3>
+                <svg viewBox="0 0 48 48" className="h-12 w-12" aria-hidden="true">
+                  {i === 0 && <rect x="4" y="4" width="40" height="40" fill="none" stroke={INK} strokeWidth="2.4" />}
+                  {i === 0 && <rect x="16" y="16" width="16" height="16" fill={RUST} />}
+                  {i === 1 && <circle cx="24" cy="24" r="20" fill="none" stroke={INK} strokeWidth="2.4" />}
+                  {i === 1 && <path d="M24 4 A20 20 0 0 1 24 44 Z" fill={RUST} />}
+                  {i === 2 && <path d="M4 44 L24 4 L44 44 Z" fill="none" stroke={INK} strokeWidth="2.4" strokeLinejoin="round" />}
+                  {i === 2 && <circle cx="24" cy="32" r="5" fill={RUST} />}
+                </svg>
+                <h3 className="mt-6 font-serif text-[25px] font-bold leading-tight">{c.title}</h3>
                 <p className="mt-3 text-[17px] leading-snug text-[#4a4538]">{c.text}</p>
               </div>
             ))}
@@ -297,12 +448,13 @@ export default function LandingPage() {
             <Eyebrow>Getting started</Eyebrow>
             <H2>Simple to begin.</H2>
           </div>
-          <ol className="mt-14 grid border-t border-[#141414] md:grid-cols-3">
+          <ol className="relative mt-16 grid gap-12 md:grid-cols-3 md:gap-8">
+            <div className="pointer-events-none absolute left-0 right-0 top-6 hidden h-px bg-[#141414] md:block" aria-hidden="true" />
             {START.map(([t, d], i) => (
-              <li key={t} className="border-b border-[#d9d2c1] py-10 md:border-b-0 md:border-l md:px-8 md:first:border-l-0 md:first:pl-0">
-                <span className="font-serif text-[48px] font-bold leading-none text-[#b4380a]">{i + 1}</span>
-                <h3 className="mt-5 font-serif text-[25px] font-bold">{t}</h3>
-                <p className="mt-2 text-[17px] leading-snug text-[#4a4538]">{d}</p>
+              <li key={t} className="relative">
+                <span className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full border-2 border-[#141414] bg-[#fbf9f4] font-serif text-[22px] font-bold">{i + 1}</span>
+                <h3 className="mt-6 font-serif text-[25px] font-bold">{t}</h3>
+                <p className="mt-2 max-w-xs text-[17px] leading-snug text-[#4a4538]">{d}</p>
               </li>
             ))}
           </ol>
@@ -335,16 +487,15 @@ export default function LandingPage() {
       </section>
 
       {/* Closing */}
-      <section className="bg-[#141414] py-24 text-[#f6f3ec]">
-        <Wrap>
-          <div className="grid items-end gap-10 lg:grid-cols-[1.3fr_0.7fr] lg:gap-16">
-            <div>
-              <Eyebrow light>Ready when you are</Eyebrow>
-              <h2 className="mt-5 font-serif text-[2.6rem] font-bold leading-[1.02] tracking-tight sm:text-[4rem]">Stop chasing. Start placing.</h2>
-              <p className="mt-5 max-w-xl text-[19px] leading-snug text-[#cfc8b8]">One workspace for your whole agency. Create an account and we will get back to you.</p>
-            </div>
-            <div className="lg:pb-3 lg:text-right"><TryFree tone="dark" large /></div>
-          </div>
+      <section className="relative overflow-hidden bg-[#141414] py-28 text-[#f6f3ec]">
+        <div className="pointer-events-none absolute -bottom-px -right-px h-[120%] w-[55%] max-w-[640px]" aria-hidden="true">
+          <ArcsArt />
+        </div>
+        <Wrap className="relative">
+          <Eyebrow light>Ready when you are</Eyebrow>
+          <h2 className="mt-5 max-w-3xl font-serif text-[2.6rem] font-bold leading-[1.02] tracking-tight sm:text-[4.2rem]">Stop chasing. Start placing.</h2>
+          <p className="mt-5 max-w-xl text-[19px] leading-snug text-[#cfc8b8]">One workspace for your whole agency. Create an account and we will get back to you.</p>
+          <div className="mt-10"><TryFree tone="dark" large /></div>
         </Wrap>
       </section>
 
