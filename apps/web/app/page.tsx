@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import type { ReactNode } from 'react';
 
@@ -45,10 +46,10 @@ const WHERE = [
 ];
 
 const ROLES = [
-  { role: 'Recruiters', gain: 'More time for people, less for admin.', bg: RUST, fg: PAPER },
-  { role: 'Managers', gain: 'A clear view of how the team is doing.', bg: INK, fg: SOFT },
-  { role: 'Finance', gain: 'Fewer manual steps. Fewer mistakes.', bg: '#cfc8b8', fg: INK },
-  { role: 'Owners', gain: 'Peace of mind, in control of the whole agency.', bg: SOFT, fg: INK },
+  { role: 'Recruiters', gain: 'More time for people, less for admin.', src: '/landing/recruiter.jpg', alt: 'A recruitment consultant' },
+  { role: 'Managers', gain: 'A clear view of how the team is doing.', src: '/landing/manager.jpg', alt: 'An agency manager' },
+  { role: 'Finance', gain: 'Fewer manual steps. Fewer mistakes.', src: '/landing/finance.jpg', alt: 'A finance officer' },
+  { role: 'Owners', gain: 'Peace of mind, in control of the whole agency.', src: '/landing/owner.jpg', alt: 'An agency owner' },
 ];
 
 const COMMITMENTS = [
@@ -389,21 +390,6 @@ function WhereArt({ n }: { n: number }) {
   );
 }
 
-/** A role, as a person: a round portrait in the colour of the role. */
-function RolePortrait({ bg, fg }: { bg: string; fg: string }) {
-  return (
-    <svg viewBox="0 0 160 160" className="h-36 w-36" aria-hidden="true">
-      <circle cx="80" cy="80" r="80" fill={bg} />
-      <clipPath id={`clip-${bg.replace('#', '')}`}>
-        <circle cx="80" cy="80" r="80" />
-      </clipPath>
-      <g clipPath={`url(#clip-${bg.replace('#', '')})`}>
-        <Person x={80} y={62} r={25} fill={fg} />
-      </g>
-    </svg>
-  );
-}
-
 /** Three small scenes for the commitments: two separate rooms, access you choose, and a person helping. */
 function CommitmentArt({ n }: { n: 0 | 1 | 2 }) {
   return (
@@ -587,7 +573,9 @@ export default function LandingPage() {
           <div className="mt-14 grid border-t border-[#141414] sm:grid-cols-2 lg:grid-cols-4">
             {ROLES.map((r) => (
               <div key={r.role} className="border-b border-[#cfc8b8] py-10 sm:border-r sm:px-7 sm:first:pl-0 lg:border-b-0 lg:last:border-r-0">
-                <RolePortrait bg={r.bg} fg={r.fg} />
+                <div className="relative aspect-[4/5] w-full max-w-[260px] overflow-hidden bg-[#f6f3ec]">
+                  <Image src={r.src} alt={r.alt} fill sizes="(min-width: 1024px) 240px, (min-width: 640px) 45vw, 80vw" className="object-cover object-top" />
+                </div>
                 <h3 className="mt-6 font-serif text-[26px] font-bold">{r.role}</h3>
                 <p className="mt-2 text-[16px] leading-snug text-[#4a4538]">{r.gain}</p>
               </div>
