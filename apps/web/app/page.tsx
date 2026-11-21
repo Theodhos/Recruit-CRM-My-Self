@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import type { CSSProperties, ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export const metadata: Metadata = {
   title: 'Recruitment CRM — One system for your agency',
-  description: 'One calm place for your whole agency. Less admin, clearer decisions, more time for people.',
+  description: 'One calm place for your whole agency: your people, your roles and your clients, always in step.',
 };
 
 const REGISTER = '/register';
@@ -13,7 +13,8 @@ const REGISTER = '/register';
  * Deliberately high level: the page explains the idea, the purpose and where it helps, and nothing about how the
  * product is built, what screens or parts it has, or how anything works inside. Keep it that way when editing.
  * No invented figures, customers or quotes either: only claims the business can stand behind.
- * The pictures are drawn shapes and patterns: no icons, no stock images, no screens.
+ * The pictures are drawn, plain "wireframe" scenes of everyday agency work (people, roles, clients). They show what
+ * the product is for at a glance, with no real screens, labels or workflow in them.
  */
 
 const INK = '#141414';
@@ -34,51 +35,20 @@ const PRINCIPLES = [
   ['Stronger teams', 'Everyone working the same way.'],
 ];
 
-/** Each tile of "where it helps" carries its own quiet pattern, drawn with CSS gradients. */
-const WHERE: { title: string; text: string; tone: string; pattern: CSSProperties }[] = [
-  {
-    title: 'Recruitment agencies',
-    text: 'From a boutique of three to a busy floor of thirty.',
-    tone: 'bg-[#141414] text-[#f6f3ec]',
-    pattern: { backgroundImage: 'radial-gradient(rgba(246,243,236,0.22) 1.3px, transparent 1.6px)', backgroundSize: '16px 16px' },
-  },
-  {
-    title: 'Staffing and temporary work',
-    text: 'Fast-moving teams that have to keep up every single day.',
-    tone: 'bg-[#b4380a] text-white',
-    pattern: { backgroundImage: 'repeating-linear-gradient(135deg, rgba(255,255,255,0.2) 0 1px, transparent 1px 13px)' },
-  },
-  {
-    title: 'Specialist and executive search',
-    text: 'Relationship-led work where nothing can slip through.',
-    tone: 'bg-[#fbf9f4] text-[#141414] ring-1 ring-inset ring-[#d9d2c1]',
-    pattern: { backgroundImage: 'repeating-radial-gradient(circle at 100% 100%, rgba(20,20,20,0.13) 0 1px, transparent 1px 22px)' },
-  },
-  {
-    title: 'Growing teams',
-    text: 'A system that scales as quickly as you do.',
-    tone: 'bg-[#ebe5d6] text-[#141414]',
-    pattern: { backgroundImage: 'linear-gradient(rgba(20,20,20,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(20,20,20,0.12) 1px, transparent 1px)', backgroundSize: '26px 26px' },
-  },
-  {
-    title: 'Multi-office agencies',
-    text: 'Everyone on the same page, wherever they sit.',
-    tone: 'bg-[#141414] text-[#f6f3ec]',
-    pattern: { backgroundImage: 'repeating-linear-gradient(0deg, rgba(246,243,236,0.16) 0 1px, transparent 1px 11px)' },
-  },
-  {
-    title: 'In-house hiring teams',
-    text: 'Companies that recruit for themselves and want it to feel easy.',
-    tone: 'bg-[#fbf9f4] text-[#141414] ring-1 ring-inset ring-[#d9d2c1]',
-    pattern: { backgroundImage: 'radial-gradient(rgba(180,56,10,0.35) 1.3px, transparent 1.6px)', backgroundSize: '18px 18px' },
-  },
+const WHERE = [
+  { title: 'Recruitment agencies', text: 'From a boutique of three to a busy floor of thirty.', tone: 'bg-[#141414] text-[#f6f3ec]' },
+  { title: 'Staffing and temporary work', text: 'Fast-moving teams that have to keep up every single day.', tone: 'bg-[#b4380a] text-white' },
+  { title: 'Specialist and executive search', text: 'Relationship-led work where nothing can slip through.', tone: 'bg-[#fbf9f4] text-[#141414] ring-1 ring-inset ring-[#d9d2c1]' },
+  { title: 'Growing teams', text: 'A system that scales as quickly as you do.', tone: 'bg-[#ebe5d6] text-[#141414]' },
+  { title: 'Multi-office agencies', text: 'Everyone on the same page, wherever they sit.', tone: 'bg-[#141414] text-[#f6f3ec]' },
+  { title: 'In-house hiring teams', text: 'Companies that recruit for themselves and want it to feel easy.', tone: 'bg-[#fbf9f4] text-[#141414] ring-1 ring-inset ring-[#d9d2c1]' },
 ];
 
 const ROLES = [
-  { letter: 'R', role: 'Recruiters', gain: 'More time for people, less for admin.' },
-  { letter: 'M', role: 'Managers', gain: 'A clear view of how the team is doing.' },
-  { letter: 'F', role: 'Finance', gain: 'Fewer manual steps. Fewer mistakes.' },
-  { letter: 'O', role: 'Owners', gain: 'Peace of mind, in control of the whole agency.' },
+  { role: 'Recruiters', gain: 'More time for people, less for admin.', bg: RUST, fg: PAPER },
+  { role: 'Managers', gain: 'A clear view of how the team is doing.', bg: INK, fg: SOFT },
+  { role: 'Finance', gain: 'Fewer manual steps. Fewer mistakes.', bg: '#cfc8b8', fg: INK },
+  { role: 'Owners', gain: 'Peace of mind, in control of the whole agency.', bg: SOFT, fg: INK },
 ];
 
 const COMMITMENTS = [
@@ -101,7 +71,7 @@ const FAQ: [string, string][] = [
   ['How do I get access?', 'Create an account and tell us about your agency. We will get back to you.'],
 ];
 
-/* ───────────────────────── pieces ───────────────────────── */
+/* ───────────────────────── layout pieces ───────────────────────── */
 
 /** Every section uses this one container, so all content shares the same width and edges. */
 function Wrap({ children, className = '' }: { children: ReactNode; className?: string }) {
@@ -135,126 +105,339 @@ function TryFree({ tone = 'paper', large = false, children = 'Try free' }: { ton
   );
 }
 
-/** The hero picture: nine square modules of plain geometry, in the page's own colours. Shapes only. */
+/* ───────────────────────── drawing pieces ───────────────────────── */
+
+/** A person: round head, rounded shoulders. Drawn at (x, y) as the centre of the head, r is the head radius. */
+function Person({ x, y, r, fill, opacity = 1 }: { x: number; y: number; r: number; fill: string; opacity?: number }) {
+  return (
+    <g fill={fill} opacity={opacity}>
+      <circle cx={x} cy={y} r={r} />
+      <path d={`M${x - r * 1.9},${y + r * 3} C${x - r * 1.9},${y + r * 1.5} ${x - r * 1},${y + r * 1.25} ${x},${y + r * 1.25} C${x + r * 1},${y + r * 1.25} ${x + r * 1.9},${y + r * 1.5} ${x + r * 1.9},${y + r * 3} Z`} />
+    </g>
+  );
+}
+
+/** A line of text, drawn as a bar. */
+function Bar({ x, y, w, h = 6, fill = INK, opacity = 0.2 }: { x: number; y: number; w: number; h?: number; fill?: string; opacity?: number }) {
+  return <rect x={x} y={y} width={w} height={h} rx={h / 2} fill={fill} opacity={opacity} />;
+}
+
+/**
+ * The hero picture: an agency's day in one calm window. People on the left, open roles on the right, one of them
+ * matched. Plain wireframe, no real screen, labels or workflow.
+ */
 function HeroArt() {
+  const people = [0, 1, 2, 3];
+  const roles = [0, 1, 2];
   return (
-    <svg viewBox="0 0 480 480" className="mx-auto h-auto w-full max-w-[520px]" role="img" aria-label="">
-      <rect width="480" height="480" fill="#fbf9f4" />
-      {/* row 1 */}
-      <g>
-        <path d="M0,160 L160,160 A160,160 0 0 0 0,0 Z" fill={RUST} />
-      </g>
-      <g transform="translate(160 0)">
-        <rect width="160" height="160" fill={INK} />
-        <circle cx="80" cy="80" r="46" fill={PAPER} />
-        <circle cx="80" cy="80" r="14" fill={RUST} />
-      </g>
-      <g transform="translate(320 0)">
-        <rect width="160" height="160" fill={SAND} />
-        <rect x="26" y="28" width="26" height="104" fill={INK} />
-        <rect x="67" y="58" width="26" height="74" fill={INK} />
-        <rect x="108" y="88" width="26" height="44" fill={RUST} />
-      </g>
-      {/* row 2 */}
-      <svg x="0" y="160" width="160" height="160" viewBox="0 0 160 160">
-        <rect width="160" height="160" fill="#fbf9f4" />
-        {[36, 72, 108, 144, 180].map((r) => (
-          <circle key={r} cx="0" cy="160" r={r} fill="none" stroke={INK} strokeWidth="1.6" />
-        ))}
-      </svg>
-      <g transform="translate(160 160)">
-        <rect width="160" height="160" fill={RUST} />
-        <rect x="44" y="44" width="72" height="72" fill="none" stroke={PAPER} strokeWidth="2" />
-        <rect x="64" y="64" width="32" height="32" fill={PAPER} />
-      </g>
-      <g transform="translate(320 160)">
-        <rect width="160" height="160" fill="#fbf9f4" />
-        <path d="M160,0 L0,0 A160,160 0 0 0 160,160 Z" fill={INK} />
-      </g>
-      {/* row 3 */}
-      <g transform="translate(0 320)">
-        <rect width="160" height="160" fill={SAND} />
-        <rect x="28" y="28" width="104" height="22" fill={INK} />
-        <rect x="28" y="69" width="72" height="22" fill={INK} />
-        <rect x="28" y="110" width="40" height="22" fill={RUST} />
-      </g>
-      <g transform="translate(160 320)">
-        <rect width="160" height="160" fill="#fbf9f4" />
-        <circle cx="80" cy="80" r="54" fill="none" stroke={INK} strokeWidth="2" />
-        <circle cx="80" cy="80" r="30" fill="none" stroke={INK} strokeWidth="1.2" />
-        <circle cx="106" cy="54" r="9" fill={RUST} />
-      </g>
-      <g transform="translate(320 320)">
-        <rect width="160" height="160" fill={SOFT} />
-        <path d="M20,112 A60,60 0 0 1 140,112 Z" fill={INK} />
-        <rect x="20" y="112" width="120" height="3" fill={INK} />
-      </g>
-      {/* hairlines between the modules */}
-      <g stroke={INK} strokeOpacity="0.18" strokeWidth="1">
-        <line x1="160" y1="0" x2="160" y2="480" />
-        <line x1="320" y1="0" x2="320" y2="480" />
-        <line x1="0" y1="160" x2="480" y2="160" />
-        <line x1="0" y1="320" x2="480" y2="320" />
-      </g>
+    <svg viewBox="0 0 600 440" className="h-auto w-full" role="img" aria-label="">
+      <rect x="1" y="1" width="598" height="438" rx="12" fill="#fbf9f4" stroke={INK} strokeWidth="1.4" />
+      {/* window bar */}
+      <path d="M1,13 A12,12 0 0 1 13,1 H587 A12,12 0 0 1 599,13 V37 H1 Z" fill={SAND} />
+      {[22, 40, 58].map((cx) => (
+        <circle key={cx} cx={cx} cy="19" r="4.5" fill={INK} opacity="0.28" />
+      ))}
+      <rect x="200" y="11" width="200" height="16" rx="8" fill={PAPER} />
+      {/* side column */}
+      <rect x="1" y="37" width="124" height="402" fill="#f1ece0" />
+      <rect x="18" y="56" width="26" height="26" rx="7" fill={RUST} />
+      <Bar x={52} y={64} w={52} h={8} opacity={0.7} />
+      {[0, 1, 2, 3, 4].map((i) => (
+        <g key={i}>
+          {i === 1 && <rect x="1" y={108 + i * 40 - 11} width="124" height="34" fill={PAPER} />}
+          {i === 1 && <rect x="1" y={108 + i * 40 - 11} width="4" height="34" fill={RUST} />}
+          <rect x="22" y={108 + i * 40} width="12" height="12" rx="3" fill={INK} opacity={i === 1 ? 0.7 : 0.25} />
+          <Bar x={44} y={110 + i * 40} w={i % 2 ? 56 : 44} h={7} opacity={i === 1 ? 0.6 : 0.22} />
+        </g>
+      ))}
+      {/* heading and three summary tiles */}
+      <Bar x={150} y={58} w={170} h={11} opacity={0.85} />
+      <Bar x={150} y={78} w={110} h={6} opacity={0.25} />
+      {[0, 1, 2].map((i) => (
+        <g key={i} transform={`translate(${150 + i * 148} 100)`}>
+          <rect width="136" height="74" rx="8" fill={PAPER} stroke={INK} strokeOpacity="0.2" />
+          <Bar x={14} y={14} w={44} h={6} opacity={0.3} />
+          {i === 0 &&
+            [0, 1, 2, 3, 4, 5].map((b) => <rect key={b} x={14 + b * 17} y={64 - (14 + b * 6)} width="11" height={14 + b * 6} fill={b === 5 ? RUST : INK} opacity={b === 5 ? 1 : 0.8} />)}
+          {i === 1 && (
+            <>
+              <circle cx="46" cy="46" r="18" fill="none" stroke={INK} strokeOpacity="0.15" strokeWidth="7" />
+              <circle cx="46" cy="46" r="18" fill="none" stroke={RUST} strokeWidth="7" strokeDasharray="82 113" transform="rotate(-90 46 46)" />
+              <Bar x={78} y={38} w={40} h={8} opacity={0.8} />
+              <Bar x={78} y={54} w={28} h={5} opacity={0.25} />
+            </>
+          )}
+          {i === 2 && (
+            <>
+              <path d="M14,58 L40,44 L62,50 L86,30 L120,22" fill="none" stroke={INK} strokeWidth="2.2" strokeLinejoin="round" strokeLinecap="round" />
+              <circle cx="120" cy="22" r="4.5" fill={RUST} />
+            </>
+          )}
+        </g>
+      ))}
+      {/* people */}
+      <text x="150" y="204" fontSize="11" fontWeight="700" letterSpacing="2" fill={INK} opacity="0.55">PEOPLE</text>
+      {people.map((i) => (
+        <g key={i} transform={`translate(150 ${214 + i * 54})`}>
+          <rect width="190" height="46" rx="8" fill={i === 1 ? PAPER : 'none'} stroke={i === 1 ? RUST : INK} strokeOpacity={i === 1 ? 1 : 0.2} strokeWidth={i === 1 ? 1.8 : 1} />
+          <circle cx="24" cy="23" r="14" fill={['#cfc8b8', RUST, SOFT, '#b9b19b'][i]} />
+          <circle cx="24" cy="19" r="5" fill={PAPER} opacity="0.9" />
+          <path d="M14,31 C14,26 34,26 34,31 Z" fill={PAPER} opacity="0.9" />
+          <Bar x={50} y={12} w={90} h={7} opacity={0.75} />
+          <Bar x={50} y={26} w={60} h={5} opacity={0.25} />
+          <rect x={150} y={15} width={28} height={16} rx={8} fill={i === 1 ? RUST : INK} opacity={i === 1 ? 1 : 0.15} />
+        </g>
+      ))}
+      {/* roles */}
+      <text x="372" y="204" fontSize="11" fontWeight="700" letterSpacing="2" fill={INK} opacity="0.55">ROLES</text>
+      {roles.map((i) => (
+        <g key={i} transform={`translate(372 ${214 + i * 66})`}>
+          <rect width="214" height="56" rx="8" fill={i === 0 ? PAPER : 'none'} stroke={i === 0 ? RUST : INK} strokeOpacity={i === 0 ? 1 : 0.2} strokeWidth={i === 0 ? 1.8 : 1} />
+          <Bar x={16} y={14} w={i === 1 ? 110 : 140} h={8} opacity={0.75} />
+          <Bar x={16} y={28} w={84} h={5} opacity={0.25} />
+          <rect x="16" y="42" width="182" height="5" rx="2.5" fill={INK} opacity="0.1" />
+          <rect x="16" y="42" width={[150, 96, 52][i]} height="5" rx="2.5" fill={RUST} />
+        </g>
+      ))}
+      {/* the match */}
+      <path d="M340,290 C356,290 356,242 372,242" fill="none" stroke={RUST} strokeWidth="2.2" strokeLinecap="round" />
+      <circle cx="372" cy="242" r="4.5" fill={RUST} />
+      <circle cx="340" cy="290" r="4.5" fill={RUST} />
     </svg>
   );
 }
 
-/** One small drawing for each reason on the page: rings, falling bars, a grid with a few squares picked out. */
+/** One small scene for each reason: an overview, work taken care of, and who sees what. */
 function WhyArt({ n }: { n: 0 | 1 | 2 }) {
-  if (n === 0) {
-    return (
-      <svg viewBox="0 0 220 110" className="h-24 w-auto" aria-hidden="true">
-        {[14, 28, 42, 56].map((r) => (
-          <circle key={r} cx="110" cy="55" r={r} fill="none" stroke={INK} strokeWidth="1.4" />
-        ))}
-        <circle cx="110" cy="55" r="7" fill={RUST} />
-        <line x1="0" y1="55" x2="220" y2="55" stroke={INK} strokeWidth="1" strokeOpacity="0.35" />
-      </svg>
-    );
-  }
-  if (n === 1) {
-    return (
-      <svg viewBox="0 0 220 110" className="h-24 w-auto" aria-hidden="true">
-        {[96, 80, 64, 48, 32].map((w, i) => (
-          <rect key={w} x="0" y={i * 22} width={w * 2.2} height="14" fill={i === 4 ? RUST : INK} />
-        ))}
-      </svg>
-    );
-  }
-  const lit = new Set([2, 9, 10, 17]);
   return (
-    <svg viewBox="0 0 220 110" className="h-24 w-auto" aria-hidden="true">
-      {Array.from({ length: 21 }).map((_, i) => {
-        const x = (i % 7) * 32;
-        const y = Math.floor(i / 7) * 36;
-        return <rect key={i} x={x} y={y} width="26" height="26" fill={lit.has(i) ? RUST : 'none'} stroke={INK} strokeWidth="1.4" />;
-      })}
+    <svg viewBox="0 0 240 150" className="h-auto w-full max-w-[260px]" aria-hidden="true">
+      <rect x="1" y="1" width="238" height="148" rx="10" fill="#fbf9f4" stroke={INK} strokeOpacity="0.45" strokeWidth="1.2" />
+      {n === 0 && (
+        <>
+          {[0, 1, 2].map((i) => (
+            <g key={i} transform={`translate(${14 + i * 74} 14)`}>
+              <rect width="66" height="38" rx="6" fill={PAPER} stroke={INK} strokeOpacity="0.18" />
+              <Bar x={9} y={9} w={26} h={5} opacity={0.3} />
+              <Bar x={9} y={21} w={i === 1 ? 40 : 30} h={9} fill={i === 2 ? RUST : INK} opacity={i === 2 ? 1 : 0.8} />
+            </g>
+          ))}
+          {[22, 34, 28, 48, 40, 58, 70].map((h, i) => (
+            <rect key={i} x={20 + i * 30} y={134 - h} width="20" height={h} fill={i === 6 ? RUST : INK} opacity={i === 6 ? 1 : 0.78} />
+          ))}
+        </>
+      )}
+      {n === 1 &&
+        [0, 1, 2, 3].map((i) => (
+          <g key={i} transform={`translate(20 ${20 + i * 30})`}>
+            <rect width="18" height="18" rx="4" fill={i < 3 ? RUST : 'none'} stroke={i < 3 ? RUST : INK} strokeOpacity={i < 3 ? 1 : 0.5} strokeWidth="1.6" />
+            {i < 3 && <path d="M4.5,9.5 L8,13 L14,5.5" fill="none" stroke={PAPER} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />}
+            <Bar x={32} y={4} w={[132, 108, 150, 96][i]!} h={8} opacity={i < 3 ? 0.25 : 0.75} />
+            {i < 3 && <rect x={32} y={7.5} width={[132, 108, 150, 96][i]!} height="1.4" fill={INK} opacity="0.5" />}
+          </g>
+        ))}
+      {n === 2 &&
+        [0, 1, 2].map((i) => (
+          <g key={i} transform={`translate(18 ${18 + i * 42})`}>
+            <circle cx="14" cy="14" r="14" fill={['#cfc8b8', RUST, SOFT][i]} />
+            <circle cx="14" cy="11" r="4.5" fill={PAPER} opacity="0.9" />
+            <path d="M6,22 C6,17 22,17 22,22 Z" fill={PAPER} opacity="0.9" />
+            <Bar x={38} y={5} w={78} h={7} opacity={0.75} />
+            <Bar x={38} y={18} w={50} h={5} opacity={0.25} />
+            <rect x="160" y="4" width="46" height="24" rx="12" fill={i === 1 ? INK : RUST} opacity={i === 1 ? 0.18 : 1} />
+            <circle cx={i === 1 ? 172 : 194} cy="16" r="9" fill={PAPER} />
+          </g>
+        ))}
     </svg>
   );
 }
 
-/** Many lines in, one line out: the purpose of the product, drawn. */
+/** The purpose, drawn: notes, sheets, mail and chat scattered on the left, one tidy view on the right. */
 function ConvergeArt() {
-  const ys = Array.from({ length: 13 }, (_, i) => 12 + i * 18);
   return (
-    <svg viewBox="0 0 640 240" className="h-auto w-full" aria-hidden="true">
-      {ys.map((y, i) => (
-        <path key={y} d={`M0,${y} C260,${y} 340,120 520,120`} fill="none" stroke={PAPER} strokeOpacity={0.18 + (i % 4) * 0.08} strokeWidth="1.3" />
+    <svg viewBox="0 0 640 280" className="h-auto w-full" aria-hidden="true">
+      {/* scattered things */}
+      <g transform="translate(14 22) rotate(-7 50 40)">
+        <rect width="104" height="84" fill={PAPER} opacity="0.95" />
+        {[0, 1, 2, 3].map((r) => (
+          <line key={r} x1="0" y1={21 + r * 21} x2="104" y2={21 + r * 21} stroke={INK} strokeOpacity="0.3" />
+        ))}
+        {[0, 1, 2].map((c) => (
+          <line key={c} x1={26 + c * 26} y1="0" x2={26 + c * 26} y2="84" stroke={INK} strokeOpacity="0.3" />
+        ))}
+        <rect x="26" y="0" width="26" height="21" fill={RUST} opacity="0.85" />
+      </g>
+      <g transform="translate(138 8) rotate(5 50 30)">
+        <rect width="100" height="66" fill="#d9d2c1" />
+        <path d="M0,0 L50,38 L100,0" fill="none" stroke={INK} strokeOpacity="0.5" strokeWidth="1.6" />
+        <circle cx="86" cy="54" r="9" fill={RUST} />
+      </g>
+      <g transform="translate(40 142) rotate(4 50 40)">
+        <rect width="98" height="88" fill={SOFT} />
+        <Bar x={12} y={16} w={66} h={6} fill={INK} opacity={0.55} />
+        <Bar x={12} y={32} w={50} h={6} fill={INK} opacity={0.55} />
+        <Bar x={12} y={48} w={72} h={6} fill={INK} opacity={0.55} />
+      </g>
+      <g transform="translate(160 128) rotate(-5 60 40)">
+        <rect width="104" height="46" rx="14" fill={PAPER} opacity="0.95" />
+        <path d="M18,46 L12,62 L36,46 Z" fill={PAPER} opacity="0.95" />
+        <Bar x={16} y={15} w={72} h={6} opacity={0.4} />
+        <Bar x={16} y={28} w={46} h={6} opacity={0.4} />
+      </g>
+      <g transform="translate(178 200) rotate(3 40 20)">
+        <rect width="88" height="50" rx="14" fill="#cfc8b8" />
+        <Bar x={14} y={16} w={56} h={6} opacity={0.5} />
+        <Bar x={14} y={29} w={36} h={6} opacity={0.5} />
+      </g>
+      {/* many into one */}
+      {([[118, 60], [238, 112], [130, 168], [266, 226]] as const).map(([x, y]) => (
+        <path key={y} d={`M${x},${y} C330,${y} 330,140 392,140`} fill="none" stroke={PAPER} strokeOpacity="0.5" strokeWidth="1.4" strokeDasharray="4 5" />
       ))}
-      <line x1="520" y1="120" x2="640" y2="120" stroke={RUST} strokeWidth="6" />
-      <circle cx="520" cy="120" r="9" fill={SOFT} />
+      <circle cx="392" cy="140" r="6" fill={SOFT} />
+      {/* the one view */}
+      <g transform="translate(404 28)">
+        <rect width="226" height="224" rx="10" fill="#fbf9f4" />
+        <path d="M0,10 A10,10 0 0 1 10,0 H216 A10,10 0 0 1 226,10 V28 H0 Z" fill={SAND} />
+        {[16, 30, 44].map((cx) => (
+          <circle key={cx} cx={cx} cy="14" r="3.5" fill={INK} opacity="0.28" />
+        ))}
+        {[0, 1, 2, 3].map((i) => (
+          <g key={i} transform={`translate(14 ${42 + i * 44})`}>
+            <rect width="198" height="36" rx="7" fill="none" stroke={i === 0 ? RUST : INK} strokeOpacity={i === 0 ? 1 : 0.22} strokeWidth={i === 0 ? 1.8 : 1} />
+            <circle cx="20" cy="18" r="11" fill={['#cfc8b8', RUST, SOFT, '#b9b19b'][i]} />
+            <Bar x={42} y={9} w={78} h={7} opacity={0.75} />
+            <Bar x={42} y={21} w={50} h={5} opacity={0.25} />
+            <rect x="152" y="10" width="34" height="16" rx="8" fill={i === 0 ? RUST : INK} opacity={i === 0 ? 1 : 0.14} />
+          </g>
+        ))}
+      </g>
     </svg>
   );
 }
 
-/** Large arcs for the closing band, cropped by the edge of the page. */
-function ArcsArt() {
+/** A small scene for each kind of place the product helps. Drawn in the colour of the tile it sits on. */
+function WhereArt({ n }: { n: number }) {
+  /** A person drawn in the tile's colour; (x, y) is the centre of the head. */
+  const dot = (x: number, y: number, r: number, key: string | number, o = 0.9) => <Person key={key} x={x} y={y} r={r} fill="currentColor" opacity={o} />;
   return (
-    <svg viewBox="0 0 400 400" className="h-full w-full" aria-hidden="true">
-      {[60, 110, 160, 210, 260, 310].map((r, i) => (
-        <circle key={r} cx="400" cy="400" r={r} fill="none" stroke={i === 2 ? RUST : PAPER} strokeOpacity={i === 2 ? 1 : 0.16} strokeWidth={i === 2 ? 5 : 1.2} />
-      ))}
+    <svg viewBox="0 0 200 96" className="h-auto w-full" aria-hidden="true" fill="none" stroke="currentColor">
+      {n === 0 && (
+        <>
+          {[14, 44, 74].map((y, i) => (
+            <g key={y}>
+              {dot(26, y + 3, 7, `p${i}`)}
+              <rect x="128" y={y - 2} width="58" height="22" rx="5" strokeOpacity="0.8" strokeWidth="1.5" />
+              <line x1="136" y1={y + 9} x2={156 + i * 8} y2={y + 9} strokeOpacity="0.8" strokeWidth="3" strokeLinecap="round" />
+            </g>
+          ))}
+          <path d="M46,24 C86,24 88,84 126,84 M46,54 C86,54 88,24 126,24 M46,84 C86,84 88,54 126,54" strokeOpacity="0.55" strokeWidth="1.4" strokeDasharray="3 4" />
+        </>
+      )}
+      {n === 1 && (
+        <>
+          {Array.from({ length: 21 }).map((_, i) => {
+            const x = 8 + (i % 7) * 26;
+            const y = 6 + Math.floor(i / 7) * 30;
+            const on = [0, 1, 4, 8, 9, 10, 15, 16, 19, 20].includes(i);
+            return <rect key={i} x={x} y={y} width="22" height="24" rx="4" fill={on ? 'currentColor' : 'none'} fillOpacity={on ? 0.85 : 0} strokeOpacity="0.55" strokeWidth="1.2" />;
+          })}
+        </>
+      )}
+      {n === 2 && (
+        <>
+          {[[30, 20], [170, 20], [30, 76], [170, 76]].map(([x, y], i) => (
+            <g key={i}>
+              <line x1="100" y1="48" x2={x} y2={y} strokeOpacity="0.5" strokeWidth="1.4" />
+              {dot(x as number, (y as number) - 6, 6, `s${i}`, 0.75)}
+            </g>
+          ))}
+          <circle cx="100" cy="48" r="24" fill="currentColor" fillOpacity="0.12" strokeOpacity="0.6" />
+          {dot(100, 38, 9, 'c')}
+        </>
+      )}
+      {n === 3 && (
+        <>
+          <line x1="6" y1="88" x2="194" y2="88" strokeOpacity="0.5" strokeWidth="1.4" />
+          {Array.from({ length: 8 }).map((_, k) => {
+            const r = 4 + k * 0.55;
+            return dot(18 + k * 23.5, 86 - r * 3, r, `g${k}`, 0.5 + k * 0.07);
+          })}
+        </>
+      )}
+      {n === 4 && (
+        <>
+          <circle cx="100" cy="12" r="6" fill="currentColor" />
+          {[36, 100, 164].map((x, i) => (
+            <g key={x}>
+              <line x1="100" y1="18" x2={x} y2="44" strokeOpacity="0.5" strokeWidth="1.4" />
+              <rect x={x - 28} y="44" width="56" height="46" rx="4" strokeOpacity="0.8" strokeWidth="1.5" />
+              {[0, 1, 2].map((p) => dot(x - 16 + p * 16, 60, 4.6, `${i}-${p}`))}
+            </g>
+          ))}
+        </>
+      )}
+      {n === 5 && (
+        <>
+          <rect x="10" y="16" width="56" height="74" rx="4" strokeOpacity="0.8" strokeWidth="1.5" />
+          {[0, 1, 2, 3, 4, 5].map((w) => (
+            <rect key={w} x={19 + (w % 2) * 24} y={26 + Math.floor(w / 2) * 20} width="14" height="12" fill="currentColor" fillOpacity="0.5" stroke="none" />
+          ))}
+          <line x1="74" y1="53" x2="104" y2="53" strokeOpacity="0.6" strokeWidth="1.6" strokeDasharray="3 4" />
+          {[0, 1, 2, 3].map((p) => dot(124 + p * 21, 40, 7, `h${p}`, 0.85))}
+        </>
+      )}
+    </svg>
+  );
+}
+
+/** A role, as a person: a round portrait in the colour of the role. */
+function RolePortrait({ bg, fg }: { bg: string; fg: string }) {
+  return (
+    <svg viewBox="0 0 160 160" className="h-36 w-36" aria-hidden="true">
+      <circle cx="80" cy="80" r="80" fill={bg} />
+      <clipPath id={`clip-${bg.replace('#', '')}`}>
+        <circle cx="80" cy="80" r="80" />
+      </clipPath>
+      <g clipPath={`url(#clip-${bg.replace('#', '')})`}>
+        <Person x={80} y={62} r={25} fill={fg} />
+      </g>
+    </svg>
+  );
+}
+
+/** Three small scenes for the commitments: two separate rooms, access you choose, and a person helping. */
+function CommitmentArt({ n }: { n: 0 | 1 | 2 }) {
+  return (
+    <svg viewBox="0 0 160 90" className="h-20 w-auto" aria-hidden="true">
+      {n === 0 && (
+        <>
+          <rect x="1" y="4" width="68" height="82" rx="6" fill="none" stroke={INK} strokeWidth="1.6" />
+          <rect x="91" y="4" width="68" height="82" rx="6" fill="none" stroke={RUST} strokeWidth="1.6" />
+          <line x1="80" y1="0" x2="80" y2="90" stroke={INK} strokeOpacity="0.4" strokeDasharray="3 4" />
+          <Person x={35} y={30} r={9} fill={INK} opacity={0.85} />
+          <Bar x={14} y={66} w={42} h={6} opacity={0.3} />
+          <Person x={125} y={30} r={9} fill={RUST} />
+          <Bar x={104} y={66} w={42} h={6} fill={RUST} opacity={0.4} />
+        </>
+      )}
+      {n === 1 &&
+        [0, 1].map((i) => (
+          <g key={i} transform={`translate(2 ${6 + i * 42})`}>
+            <Person x={14} y={10} r={8} fill={i === 0 ? RUST : INK} opacity={i === 0 ? 1 : 0.5} />
+            <Bar x={38} y={8} w={60} h={7} opacity={0.6} />
+            <Bar x={38} y={22} w={38} h={5} opacity={0.25} />
+            <rect x="110" y="6" width="46" height="24" rx="12" fill={i === 0 ? RUST : INK} opacity={i === 0 ? 1 : 0.18} />
+            <circle cx={i === 0 ? 144 : 122} cy="18" r="9" fill={PAPER} />
+          </g>
+        ))}
+      {n === 2 && (
+        <>
+          <Person x={34} y={30} r={13} fill={INK} opacity={0.85} />
+          <rect x="66" y="10" width="92" height="46" rx="14" fill="none" stroke={RUST} strokeWidth="1.8" />
+          <path d="M80,56 L74,72 L98,56 Z" fill={PAPER} stroke={RUST} strokeWidth="1.8" strokeLinejoin="round" />
+          <Bar x={80} y={24} w={64} h={6} fill={RUST} opacity={0.7} />
+          <Bar x={80} y={38} w={40} h={6} fill={RUST} opacity={0.45} />
+        </>
+      )}
     </svg>
   );
 }
@@ -281,14 +464,14 @@ export default function LandingPage() {
       {/* Hero */}
       <section className="pb-20 pt-14 lg:pb-28 lg:pt-20">
         <Wrap>
-          <div className="grid items-center gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+          <div className="grid items-center gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-14">
             <div>
               <Eyebrow>For recruitment agencies</Eyebrow>
-              <h1 className="mt-6 font-serif text-[3rem] font-bold leading-[1.0] tracking-[-0.025em] sm:text-[4.7rem]">
-                Run your agency with <span className="text-[#b4380a]">clarity.</span>
+              <h1 className="mt-6 font-serif text-[3rem] font-bold leading-[1.0] tracking-[-0.025em] sm:text-[4.4rem]">
+                Your people, your roles, your clients. <span className="text-[#b4380a]">One place.</span>
               </h1>
               <p className="mt-7 max-w-xl text-[20px] leading-[1.45] text-[#4a4538]">
-                One calm place for your whole agency. Less admin, clearer decisions, and more time for the people you work with.
+                Recruitment CRM keeps your whole agency in step: who you work with, what needs filling, and where everything stands.
               </p>
               <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
                 <TryFree large />
@@ -307,7 +490,7 @@ export default function LandingPage() {
             </div>
             <div className="relative">
               <div className="absolute -bottom-4 -right-4 hidden h-full w-full border border-[#141414] sm:block" aria-hidden="true" />
-              <div className="relative"><HeroArt /></div>
+              <div className="relative shadow-[0_30px_60px_-34px_rgba(20,20,20,0.55)]"><HeroArt /></div>
             </div>
           </div>
         </Wrap>
@@ -325,12 +508,11 @@ export default function LandingPage() {
               Great agencies run on relationships. The rest should take care of itself.
             </p>
           </div>
-          <div className="mt-16 grid border-t border-[#141414] md:grid-cols-3">
+          <div className="mt-16 grid gap-10 md:grid-cols-3 md:gap-8">
             {WHY.map((w, i) => (
-              <div key={w.title} className="flex flex-col border-b border-[#d9d2c1] py-10 md:border-b-0 md:border-l md:px-8 md:first:border-l-0 md:first:pl-0">
+              <div key={w.title}>
                 <WhyArt n={i as 0 | 1 | 2} />
-                <span className="mt-10 font-serif text-[15px] font-bold tracking-[0.1em] text-[#b4380a]">{String(i + 1).padStart(2, '0')}</span>
-                <h3 className="mt-3 font-serif text-[27px] font-bold leading-tight">{w.title}</h3>
+                <h3 className="mt-8 border-t border-[#141414] pt-5 font-serif text-[27px] font-bold leading-tight">{w.title}</h3>
                 <p className="mt-3 text-[17px] leading-snug text-[#4a4538]">{w.text}</p>
               </div>
             ))}
@@ -343,7 +525,7 @@ export default function LandingPage() {
         <Wrap>
           <Eyebrow light>Our purpose</Eyebrow>
           <H2 light className="max-w-4xl text-[2.4rem] sm:text-[4rem]">Built to give agencies their time back.</H2>
-          <div className="mt-12 grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+          <div className="mt-12 grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-14">
             <div>
               <p className="max-w-xl text-[19px] leading-snug text-[#cfc8b8]">
                 Recruitment is about people. Yet too much of the day disappears into keeping things in order. Recruitment CRM exists so the busywork never gets in the way of the work that matters.
@@ -361,7 +543,7 @@ export default function LandingPage() {
             <div>
               <ConvergeArt />
               <p className="mt-4 flex justify-between text-[12px] font-bold uppercase tracking-[0.2em] text-[#8a846f]">
-                <span>Many places</span>
+                <span>Notes, sheets, inboxes, chats</span>
                 <span className="text-[#e8956b]">One place</span>
               </p>
             </div>
@@ -383,10 +565,9 @@ export default function LandingPage() {
           </div>
           <div className="mt-14 grid gap-px bg-[#141414] sm:grid-cols-2 lg:grid-cols-3">
             {WHERE.map((w, i) => (
-              <article key={w.title} className={`group relative flex min-h-[290px] flex-col justify-between overflow-hidden p-8 ${w.tone}`}>
-                <div className="absolute inset-0 opacity-90 transition-transform duration-700 group-hover:scale-110" style={w.pattern} aria-hidden="true" />
-                <span className="relative font-serif text-[64px] font-bold leading-none opacity-90">{String(i + 1).padStart(2, '0')}</span>
-                <div className="relative">
+              <article key={w.title} className={`flex min-h-[320px] flex-col justify-between gap-8 p-8 ${w.tone}`}>
+                <div className="max-w-[260px]"><WhereArt n={i} /></div>
+                <div>
                   <h3 className="font-serif text-[27px] font-bold leading-tight">{w.title}</h3>
                   <p className="mt-3 max-w-xs text-[16px] leading-snug opacity-85">{w.text}</p>
                 </div>
@@ -406,7 +587,7 @@ export default function LandingPage() {
           <div className="mt-14 grid border-t border-[#141414] sm:grid-cols-2 lg:grid-cols-4">
             {ROLES.map((r) => (
               <div key={r.role} className="border-b border-[#cfc8b8] py-10 sm:border-r sm:px-7 sm:first:pl-0 lg:border-b-0 lg:last:border-r-0">
-                <span className="block font-serif text-[120px] font-bold leading-[0.8] text-[#b4380a]/90">{r.letter}</span>
+                <RolePortrait bg={r.bg} fg={r.fg} />
                 <h3 className="mt-6 font-serif text-[26px] font-bold">{r.role}</h3>
                 <p className="mt-2 text-[16px] leading-snug text-[#4a4538]">{r.gain}</p>
               </div>
@@ -425,14 +606,7 @@ export default function LandingPage() {
           <div className="mt-14 grid gap-px bg-[#d9d2c1] md:grid-cols-3">
             {COMMITMENTS.map((c, i) => (
               <div key={c.title} className="bg-[#f6f3ec] p-8 md:p-10">
-                <svg viewBox="0 0 48 48" className="h-12 w-12" aria-hidden="true">
-                  {i === 0 && <rect x="4" y="4" width="40" height="40" fill="none" stroke={INK} strokeWidth="2.4" />}
-                  {i === 0 && <rect x="16" y="16" width="16" height="16" fill={RUST} />}
-                  {i === 1 && <circle cx="24" cy="24" r="20" fill="none" stroke={INK} strokeWidth="2.4" />}
-                  {i === 1 && <path d="M24 4 A20 20 0 0 1 24 44 Z" fill={RUST} />}
-                  {i === 2 && <path d="M4 44 L24 4 L44 44 Z" fill="none" stroke={INK} strokeWidth="2.4" strokeLinejoin="round" />}
-                  {i === 2 && <circle cx="24" cy="32" r="5" fill={RUST} />}
-                </svg>
+                <CommitmentArt n={i as 0 | 1 | 2} />
                 <h3 className="mt-6 font-serif text-[25px] font-bold leading-tight">{c.title}</h3>
                 <p className="mt-3 text-[17px] leading-snug text-[#4a4538]">{c.text}</p>
               </div>
@@ -487,15 +661,16 @@ export default function LandingPage() {
       </section>
 
       {/* Closing */}
-      <section className="relative overflow-hidden bg-[#141414] py-28 text-[#f6f3ec]">
-        <div className="pointer-events-none absolute -bottom-px -right-px h-[120%] w-[55%] max-w-[640px]" aria-hidden="true">
-          <ArcsArt />
-        </div>
-        <Wrap className="relative">
-          <Eyebrow light>Ready when you are</Eyebrow>
-          <h2 className="mt-5 max-w-3xl font-serif text-[2.6rem] font-bold leading-[1.02] tracking-tight sm:text-[4.2rem]">Stop chasing. Start placing.</h2>
-          <p className="mt-5 max-w-xl text-[19px] leading-snug text-[#cfc8b8]">One workspace for your whole agency. Create an account and we will get back to you.</p>
-          <div className="mt-10"><TryFree tone="dark" large /></div>
+      <section className="bg-[#141414] py-24 text-[#f6f3ec]">
+        <Wrap>
+          <div className="grid items-end gap-10 lg:grid-cols-[1.4fr_0.6fr] lg:gap-16">
+            <div>
+              <Eyebrow light>Ready when you are</Eyebrow>
+              <h2 className="mt-5 font-serif text-[2.6rem] font-bold leading-[1.02] tracking-tight sm:text-[4.2rem]">Stop chasing. Start placing.</h2>
+              <p className="mt-5 max-w-xl text-[19px] leading-snug text-[#cfc8b8]">One workspace for your whole agency. Create an account and we will get back to you.</p>
+            </div>
+            <div className="lg:pb-3 lg:text-right"><TryFree tone="dark" large /></div>
+          </div>
         </Wrap>
       </section>
 
