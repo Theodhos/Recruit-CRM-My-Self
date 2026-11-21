@@ -211,7 +211,7 @@ function HeroArt() {
 /** One small scene for each reason: an overview, work taken care of, and who sees what. */
 function WhyArt({ n }: { n: 0 | 1 | 2 }) {
   return (
-    <svg viewBox="0 0 240 150" className="h-auto w-full max-w-[260px]" aria-hidden="true">
+    <svg viewBox="0 0 240 150" className="h-auto w-full max-w-[340px] sm:max-w-[260px]" aria-hidden="true">
       <rect x="1" y="1" width="238" height="148" rx="10" fill="#fbf9f4" stroke={INK} strokeOpacity="0.45" strokeWidth="1.2" />
       {n === 0 && (
         <>
@@ -448,7 +448,7 @@ export default function LandingPage() {
       </header>
 
       {/* Hero */}
-      <section className="pb-20 pt-14 lg:pb-28 lg:pt-20">
+      <section className="pb-14 pt-10 sm:pb-20 sm:pt-14 lg:pb-28 lg:pt-20">
         <Wrap>
           <div className="grid items-center gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-14">
             <div>
@@ -483,7 +483,7 @@ export default function LandingPage() {
       </section>
 
       {/* Why */}
-      <section id="why" className="scroll-mt-16 border-y border-[#d9d2c1] bg-[#fbf9f4] py-24">
+      <section id="why" className="scroll-mt-16 border-y border-[#d9d2c1] bg-[#fbf9f4] py-16 sm:py-24">
         <Wrap>
           <div className="grid gap-8 lg:grid-cols-[1fr_1fr] lg:items-end lg:gap-16">
             <div>
@@ -507,7 +507,7 @@ export default function LandingPage() {
       </section>
 
       {/* Purpose */}
-      <section id="purpose" className="scroll-mt-16 overflow-hidden bg-[#141414] py-24 text-[#f6f3ec]">
+      <section id="purpose" className="scroll-mt-16 overflow-hidden bg-[#141414] py-16 sm:py-24 text-[#f6f3ec]">
         <Wrap>
           <Eyebrow light>Our purpose</Eyebrow>
           <H2 light className="max-w-4xl text-[2.4rem] sm:text-[4rem]">Built to give agencies their time back.</H2>
@@ -529,7 +529,7 @@ export default function LandingPage() {
             <div>
               <ConvergeArt />
               <p className="mt-4 flex justify-between text-[12px] font-bold uppercase tracking-[0.2em] text-[#8a846f]">
-                <span>Notes, sheets, inboxes, chats</span>
+                <span><span className="sm:hidden">Scattered</span><span className="hidden sm:inline">Notes, sheets, inboxes, chats</span></span>
                 <span className="text-[#e8956b]">One place</span>
               </p>
             </div>
@@ -538,7 +538,7 @@ export default function LandingPage() {
       </section>
 
       {/* Where it helps */}
-      <section id="where" className="scroll-mt-16 py-24">
+      <section id="where" className="scroll-mt-16 py-16 sm:py-24">
         <Wrap>
           <div className="grid gap-8 lg:grid-cols-[1fr_1fr] lg:items-end lg:gap-16">
             <div>
@@ -551,7 +551,7 @@ export default function LandingPage() {
           </div>
           <div className="mt-14 grid gap-px bg-[#141414] sm:grid-cols-2 lg:grid-cols-3">
             {WHERE.map((w, i) => (
-              <article key={w.title} className={`flex min-h-[320px] flex-col justify-between gap-8 p-8 ${w.tone}`}>
+              <article key={w.title} className={`flex min-h-[270px] flex-col justify-between gap-6 p-6 sm:min-h-[320px] sm:gap-8 sm:p-8 ${w.tone}`}>
                 <div className="max-w-[260px]"><WhereArt n={i} /></div>
                 <div>
                   <h3 className="font-serif text-[27px] font-bold leading-tight">{w.title}</h3>
@@ -564,20 +564,20 @@ export default function LandingPage() {
       </section>
 
       {/* Roles */}
-      <section id="roles" className="scroll-mt-16 border-y border-[#d9d2c1] bg-[#ebe5d6] py-24">
+      <section id="roles" className="scroll-mt-16 border-y border-[#d9d2c1] bg-[#ebe5d6] py-16 sm:py-24">
         <Wrap>
           <div className="max-w-2xl">
             <Eyebrow>Who it’s for</Eyebrow>
             <H2>Everyone gets what they need.</H2>
           </div>
-          <div className="mt-14 grid border-t border-[#141414] sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid grid-cols-2 gap-x-4 gap-y-10 border-t border-[#141414] pt-10 sm:mt-14 lg:grid-cols-4 lg:gap-x-8">
             {ROLES.map((r) => (
-              <div key={r.role} className="border-b border-[#cfc8b8] py-10 sm:border-r sm:px-7 sm:first:pl-0 lg:border-b-0 lg:last:border-r-0">
-                <div className="relative aspect-[4/5] w-full max-w-[260px] overflow-hidden bg-[#f6f3ec]">
-                  <Image src={r.src} alt={r.alt} fill sizes="(min-width: 1024px) 240px, (min-width: 640px) 45vw, 80vw" className="object-cover object-top" />
+              <div key={r.role}>
+                <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#f6f3ec]">
+                  <Image src={r.src} alt={r.alt} fill sizes="(min-width: 1024px) 264px, (min-width: 640px) 45vw, 46vw" className="object-cover object-top" />
                 </div>
-                <h3 className="mt-6 font-serif text-[26px] font-bold">{r.role}</h3>
-                <p className="mt-2 text-[16px] leading-snug text-[#4a4538]">{r.gain}</p>
+                <h3 className="mt-4 border-t border-[#141414] pt-3 font-serif text-[21px] font-bold sm:mt-5 sm:text-[25px]">{r.role}</h3>
+                <p className="mt-1.5 text-[14.5px] leading-snug text-[#4a4538] sm:text-[16px]">{r.gain}</p>
               </div>
             ))}
           </div>
@@ -593,7 +593,7 @@ export default function LandingPage() {
           </div>
           <div className="mt-14 grid gap-px bg-[#d9d2c1] md:grid-cols-3">
             {COMMITMENTS.map((c, i) => (
-              <div key={c.title} className="bg-[#f6f3ec] p-8 md:p-10">
+              <div key={c.title} className="bg-[#f6f3ec] p-6 sm:p-8 md:p-10">
                 <CommitmentArt n={i as 0 | 1 | 2} />
                 <h3 className="mt-6 font-serif text-[25px] font-bold leading-tight">{c.title}</h3>
                 <p className="mt-3 text-[17px] leading-snug text-[#4a4538]">{c.text}</p>
@@ -604,7 +604,7 @@ export default function LandingPage() {
       </section>
 
       {/* Get started */}
-      <section className="border-y border-[#d9d2c1] bg-[#fbf9f4] py-24">
+      <section className="border-y border-[#d9d2c1] bg-[#fbf9f4] py-16 sm:py-24">
         <Wrap>
           <div className="max-w-2xl">
             <Eyebrow>Getting started</Eyebrow>
@@ -624,7 +624,7 @@ export default function LandingPage() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="scroll-mt-16 py-24">
+      <section id="faq" className="scroll-mt-16 py-16 sm:py-24">
         <Wrap>
           <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
             <div>
@@ -649,7 +649,7 @@ export default function LandingPage() {
       </section>
 
       {/* Closing */}
-      <section className="bg-[#141414] py-24 text-[#f6f3ec]">
+      <section className="bg-[#141414] py-16 sm:py-24 text-[#f6f3ec]">
         <Wrap>
           <div className="grid items-end gap-10 lg:grid-cols-[1.4fr_0.6fr] lg:gap-16">
             <div>
