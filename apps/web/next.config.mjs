@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // do not advertise the framework in every response
+  poweredByHeader: false,
   // 'standalone' copies traced dependencies with symlinks, which Windows only
   // allows for admins / Developer Mode (`next build` fails with EPERM). Docker
   // and CI build on Linux and keep it; set NEXT_OUTPUT_STANDALONE=1 to force it.

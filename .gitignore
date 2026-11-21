@@ -90,3 +90,7 @@ infrastructure/loadtest/package-lock.json
 .env.worker
 **/.env.realtime
 **/.env.worker
+
+# local tooling, not part of the product
+.claude/
+.mcp.json
