@@ -206,6 +206,54 @@ function HeroArt() {
   );
 }
 
+/** How each "where it helps" card looks: its colours, the size it takes in the grid, and whether it is a wide one. */
+const WHERE_LOOK: { card: string; span: string; tile: string; number: string; text: string; ghost: string; wide?: boolean }[] = [
+  { card: 'bg-[#141414] text-[#f6f3ec]', span: 'lg:col-span-2 min-h-[300px]', tile: 'bg-[#c2410c] text-white', number: 'text-white/25', text: 'text-[#cfc8b8]', ghost: 'text-white', wide: true },
+  { card: 'bg-[#c2410c] text-white', span: 'min-h-[300px]', tile: 'bg-white text-[#c2410c]', number: 'text-white/35', text: 'text-white/90', ghost: 'text-white' },
+  { card: 'bg-[#f6f3ec] text-[#141414] ring-1 ring-[#d9d2c1]', span: 'min-h-[280px]', tile: 'bg-[#141414] text-[#f08a5d]', number: 'text-[#141414]/20', text: 'text-[#4a4538]', ghost: 'text-[#141414]' },
+  { card: 'bg-[#f6f3ec] text-[#141414] ring-1 ring-[#d9d2c1]', span: 'min-h-[280px]', tile: 'bg-[#c2410c]/10 text-[#c2410c]', number: 'text-[#c2410c]/30', text: 'text-[#4a4538]', ghost: 'text-[#c2410c]' },
+  { card: 'bg-[#f6f3ec] text-[#141414] ring-1 ring-[#d9d2c1]', span: 'min-h-[280px]', tile: 'bg-[#141414] text-[#f08a5d]', number: 'text-[#141414]/20', text: 'text-[#4a4538]', ghost: 'text-[#141414]' },
+  { card: 'bg-[#141414] text-[#f6f3ec]', span: 'lg:col-span-3 min-h-[220px]', tile: 'bg-[#f08a5d] text-[#141414]', number: 'text-white/25', text: 'text-[#cfc8b8]', ghost: 'text-white', wide: true },
+];
+
+/** The purpose picture: a dial with most of its ring filled (time given back), and four ideas orbiting it. Shapes and icons only. */
+function PurposeArt() {
+  const chips: { icon: IconName; label: string; pos: string; style: string }[] = [
+    { icon: 'clock', label: 'Less admin', pos: 'left-[2%] top-[10%]', style: 'bg-[#c2410c] text-white' },
+    { icon: 'eye', label: 'Clearer decisions', pos: 'right-[0%] top-[22%]', style: 'bg-white text-[#141414]' },
+    { icon: 'heart', label: 'Happier teams', pos: 'left-[0%] bottom-[18%]', style: 'bg-white text-[#141414]' },
+    { icon: 'growth', label: 'Room to grow', pos: 'right-[3%] bottom-[6%]', style: 'bg-[#f08a5d] text-[#141414]' },
+  ];
+  return (
+    <div className="relative mx-auto aspect-square w-full max-w-[460px]" aria-hidden="true">
+      <svg viewBox="0 0 400 400" className="absolute inset-0 h-full w-full">
+        <circle cx="200" cy="200" r="188" fill="none" stroke="#ffffff" strokeOpacity="0.08" />
+        <circle cx="200" cy="200" r="160" fill="none" stroke="#ffffff" strokeOpacity="0.14" strokeDasharray="2 7" strokeLinecap="round" />
+        <circle cx="200" cy="200" r="120" fill="#1c1c1c" stroke="#ffffff" strokeOpacity="0.1" />
+        <circle cx="200" cy="200" r="120" fill="none" stroke="#2a2a2a" strokeWidth="16" />
+        <circle cx="200" cy="200" r="120" fill="none" stroke="#c2410c" strokeWidth="16" strokeLinecap="round" strokeDasharray="565 189" transform="rotate(-90 200 200)" />
+        <circle cx="200" cy="200" r="120" fill="none" stroke="#f08a5d" strokeWidth="16" strokeLinecap="round" strokeDasharray="150 604" transform="rotate(-90 200 200)" />
+        <circle cx="200" cy="200" r="82" fill="none" stroke="#ffffff" strokeOpacity="0.1" />
+        {Array.from({ length: 12 }).map((_, i) => {
+          const a = (i * Math.PI) / 6;
+          return <line key={i} x1={200 + Math.sin(a) * 96} y1={200 - Math.cos(a) * 96} x2={200 + Math.sin(a) * 104} y2={200 - Math.cos(a) * 104} stroke="#ffffff" strokeOpacity="0.35" strokeWidth="2" strokeLinecap="round" />;
+        })}
+      </svg>
+      <div className="absolute left-1/2 top-1/2 flex h-[26%] w-[26%] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[#f6f3ec] text-[#c2410c] shadow-[0_20px_40px_-16px_rgba(0,0,0,0.8)]">
+        <Icon name="clock" className="h-1/2 w-1/2" />
+      </div>
+      {chips.map((c) => (
+        <div key={c.label} className={`absolute ${c.pos} flex items-center gap-2.5 rounded-full py-2 pl-2 pr-4 shadow-[0_16px_30px_-14px_rgba(0,0,0,0.7)] ${c.style}`}>
+          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-black/10">
+            <Icon name={c.icon} className="h-4 w-4" />
+          </span>
+          <span className="whitespace-nowrap text-[12px] font-bold sm:text-[14px]">{c.label}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 /* ───────────────────────── page ───────────────────────── */
 
 export default function LandingPage() {
@@ -285,38 +333,26 @@ export default function LandingPage() {
       {/* Purpose */}
       <section id="purpose" className="scroll-mt-16 py-24">
         <Wrap>
-          <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
-            <div className="relative">
-              <div className="absolute -inset-4 -z-10 rounded-[2rem] bg-[#ebe5d6]" />
-              <div className="grid grid-cols-2 gap-4 p-4">
-                <div className="flex aspect-square flex-col justify-between rounded-3xl bg-[#c2410c] p-6 text-white">
-                  <Icon name="clock" className="h-9 w-9" />
-                  <p className="font-serif text-[26px] font-bold leading-tight">Less admin</p>
+          <div className="relative overflow-hidden rounded-[2.5rem] bg-[#141414] text-[#f6f3ec]">
+            <div className="pointer-events-none absolute -left-32 -top-32 h-96 w-96 rounded-full bg-[#c2410c]/30 blur-3xl" aria-hidden="true" />
+            <div className="pointer-events-none absolute -bottom-40 right-0 h-96 w-96 rounded-full bg-[#f08a5d]/15 blur-3xl" aria-hidden="true" />
+            <div className="relative grid items-center gap-12 p-8 sm:p-12 lg:grid-cols-[1fr_1fr] lg:gap-8 lg:p-16">
+              <div>
+                <Eyebrow light>Our purpose</Eyebrow>
+                <h2 className="mt-4 font-serif text-[2.4rem] font-bold leading-[1.02] tracking-tight sm:text-[3.4rem]">
+                  Built to give agencies <span className="text-[#f08a5d]">their time back.</span>
+                </h2>
+                <p className="mt-6 max-w-lg text-[19px] leading-snug text-[#cfc8b8]">
+                  Recruitment is about people. Yet too much of the day disappears into keeping things in order. Recruitment CRM exists so the busywork never gets in the way of the work that matters.
+                </p>
+                <div className="mt-8 flex flex-wrap gap-3">
+                  {['One place', 'One picture', 'One team'].map((t) => (
+                    <span key={t} className="rounded-full border border-white/20 bg-white/5 px-5 py-2.5 text-[15px] font-semibold">{t}</span>
+                  ))}
                 </div>
-                <div className="flex aspect-square flex-col justify-between rounded-3xl bg-white p-6 text-[#141414] ring-1 ring-[#e7e1d3]">
-                  <Icon name="eye" className="h-9 w-9 text-[#c2410c]" />
-                  <p className="font-serif text-[26px] font-bold leading-tight">Clearer decisions</p>
-                </div>
-                <div className="flex aspect-square flex-col justify-between rounded-3xl bg-white p-6 text-[#141414] ring-1 ring-[#e7e1d3]">
-                  <Icon name="heart" className="h-9 w-9 text-[#c2410c]" />
-                  <p className="font-serif text-[26px] font-bold leading-tight">Happier teams</p>
-                </div>
-                <div className="flex aspect-square flex-col justify-between rounded-3xl bg-[#141414] p-6 text-white">
-                  <Icon name="growth" className="h-9 w-9 text-[#f08a5d]" />
-                  <p className="font-serif text-[26px] font-bold leading-tight">Room to grow</p>
-                </div>
+                <div className="mt-10"><TryFree tone="dark">Get started</TryFree></div>
               </div>
-            </div>
-            <div>
-              <Eyebrow>Our purpose</Eyebrow>
-              <H2>Built to give agencies their time back.</H2>
-              <p className="mt-6 text-[19px] leading-snug text-[#4a4538]">
-                Recruitment is about people. Yet too much of the day disappears into keeping things in order. Recruitment CRM exists so the busywork never gets in the way of the work that matters.
-              </p>
-              <p className="mt-4 text-[19px] leading-snug text-[#4a4538]">
-                One place. One picture. One team, in step.
-              </p>
-              <div className="mt-8"><TryFree>Get started</TryFree></div>
+              <PurposeArt />
             </div>
           </div>
         </Wrap>
@@ -332,18 +368,32 @@ export default function LandingPage() {
               From small specialist firms to busy multi-office agencies.
             </p>
           </div>
-          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {WHERE.map((w) => (
-              <div key={w.title} className="flex gap-5 rounded-3xl bg-[#f6f3ec] p-7 ring-1 ring-[#d9d2c1] transition-shadow hover:shadow-[0_24px_40px_-26px_rgba(20,20,20,0.5)]">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#c2410c]/10 text-[#c2410c]">
-                  <Icon name={w.icon} className="h-6 w-6" />
-                </span>
-                <div>
-                  <h3 className="font-serif text-[22px] font-bold leading-tight">{w.title}</h3>
-                  <p className="mt-2 text-[16px] leading-snug text-[#4a4538]">{w.text}</p>
-                </div>
-              </div>
-            ))}
+
+          <div className="mt-14 grid gap-5 lg:grid-cols-3">
+            {WHERE.map((w, i) => {
+              const look = WHERE_LOOK[i]!;
+              return (
+                <article
+                  key={w.title}
+                  className={`group relative overflow-hidden rounded-[2rem] p-8 transition duration-300 hover:-translate-y-1 hover:shadow-[0_36px_60px_-30px_rgba(20,20,20,0.6)] ${look.card} ${look.span}`}
+                >
+                  {/* oversized icon, cropped by the corner, as a quiet background shape */}
+                  <Icon name={w.icon} className={`pointer-events-none absolute -bottom-8 -right-8 h-56 w-56 opacity-[0.09] transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110 ${look.ghost}`} />
+                  <div className="relative flex h-full flex-col justify-between gap-10">
+                    <div className="flex items-start justify-between">
+                      <span className={`flex h-14 w-14 items-center justify-center rounded-2xl ${look.tile}`}>
+                        <Icon name={w.icon} className="h-7 w-7" />
+                      </span>
+                      <span className={`font-serif text-[40px] font-bold leading-none ${look.number}`}>{String(i + 1).padStart(2, '0')}</span>
+                    </div>
+                    <div>
+                      <h3 className={`font-serif font-bold leading-tight ${look.wide ? 'text-[32px] sm:text-[38px]' : 'text-[26px]'}`}>{w.title}</h3>
+                      <p className={`mt-3 max-w-md leading-snug ${look.wide ? 'text-[18px]' : 'text-[16px]'} ${look.text}`}>{w.text}</p>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </Wrap>
       </section>
